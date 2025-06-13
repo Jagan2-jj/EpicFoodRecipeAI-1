@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Epic Food Assistant - Your Culinary Companion</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        /* Food-themed color palette */
+        --tomato-red: #e94057;
+        --carrot-orange: #f27121;
+        --butter-yellow: #f9ca24;
+        --avocado-green: #6ab04c;
+        --blueberry: #4834d4;
+        --chocolate: #6b4226;
+        --cream: #fff9e6;
+        --mint: #7bed9f;
+        --cinnamon: #a0522d;
+
+        /* Functional colors */
+        --primary-color: var(--tomato-red);
+        --secondary-color: var(--avocado-green);
+        --accent-color: var(--butter-yellow);
+        --dark-color: #2d2a2e;
+        --light-color: var(--cream);
+
+        /* Gradients */
+        --spicy-gradient: linear-gradient(
+          135deg,
+          var(--tomato-red),
+          var(--carrot-orange)
+        );
+        --fresh-gradient: linear-gradient(
+          135deg,
+          var(--avocado-green),
+          var(--mint)
+        );
+        --sweet-gradient: linear-gradient(
+          135deg,
+          var(--butter-yellow),
+          #ffbe76
+        );
+        --rich-gradient: linear-gradient(
+          135deg,
+          var(--chocolate),
+          var(--cinnamon)
+        );
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light-color);
+        color: var(--dark-color);
+        min-height: 100vh;
+        overflow-x: hidden;
+        background-image: url("https://www.transparenttextures.com/patterns/food.png");
+      }
+
+      /* Wooden background effect */
+      .wooden-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+        background-color: rgba(107, 66, 38, 0.1);
+        z-index: -2;
+        opacity: 0.15;
+      }
+
+      /* Kitchen counter effect */
+      .kitchen-counter {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        background: linear-gradient(
+          to bottom,
+          rgba(240, 240, 240, 0) 0%,
+          rgba(240, 240, 240, 0.8) 100%
+        );
+        z-index: -1;
+      }
+
+      .welcome-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .logo-plate {
+        width: 120px;
+        height: 120px;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1),
+          0 0 0 15px rgba(255, 255, 255, 0.2);
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo-plate::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0) 30%,
+          rgba(255, 255, 255, 0.8) 100%
+        );
+      }
+
+      .logo-plate i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        position: relative;
+        z-index: 1;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: var(--dark-color);
+        position: relative;
+        text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+        letter-spacing: 1px;
+      }
+
+      h1 span {
+        color: var(--primary-color);
+        font-style: italic;
+        position: relative;
+        display: inline-block;
+      }
+
+      h1 span::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: var(--spicy-gradient);
+        border-radius: 3px;
+      }
+
+      .tagline {
+        font-size: 1.5rem;
+        color: var(--dark-color);
+        margin-bottom: 1.5rem;
+        font-weight: 300;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .welcome-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 2rem;
+        gap: 2rem;
+        position: relative;
+      }
+
+      /* Recipe card styling */
+      .welcome-text {
+        flex: 1;
+        padding: 2.5rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+        transform: translateY(0);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        max-width: 600px;
+      }
+
+      .welcome-text:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Recipe card decoration */
+      .welcome-text::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: var(--spicy-gradient);
+      }
+
+      .welcome-text::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background-image: url("https://www.transparenttextures.com/patterns/food.png");
+        opacity: 0.05;
+        border-radius: 50%;
+      }
+
+      .welcome-text h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        position: relative;
+        display: inline-block;
+      }
+
+      .welcome-text h2::after {
+        content: "🍽️";
+        position: absolute;
+        top: -15px;
+        right: -40px;
+        font-size: 1.5rem;
+      }
+
+      .welcome-text p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        color: #555;
+      }
+
+      /* Ingredient list styling */
+      .feature-list {
+        list-style: none;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .feature-list::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        opacity: 0.2;
+      }
+
+      .feature-list li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.2rem;
+        font-size: 1.1rem;
+        position: relative;
+        padding-left: 45px;
+      }
+
+      .feature-list li i {
+        color: white;
+        margin-right: 15px;
+        font-size: 1rem;
+        background: var(--secondary-color);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: 0;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-list li:nth-child(1) i {
+        background: var(--tomato-red);
+      }
+      .feature-list li:nth-child(2) i {
+        background: var(--carrot-orange);
+      }
+      .feature-list li:nth-child(3) i {
+        background: var(--butter-yellow);
+        color: #333;
+      }
+      .feature-list li:nth-child(4) i {
+        background: var(--avocado-green);
+      }
+      .feature-list li:nth-child(5) i {
+        background: var(--blueberry);
+      }
+
+      /* Chef characters container */
+      .characters-container {
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: relative;
+        min-height: 500px;
+        margin-top: 20px;
+        padding-bottom: 60px;
+      }
+
+      /* Kitchen elements */
+      .kitchen-elements {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .kitchen-element {
+        position: absolute;
+        opacity: 0.1;
+      }
+
+      .kitchen-element.pot {
+        width: 100px;
+        height: 100px;
+        background-image: url("https://img.icons8.com/color/96/000000/cooking-pot.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        top: 10%;
+        left: 10%;
+      }
+
+      .kitchen-element.pan {
+        width: 100px;
+        height: 100px;
+        background-image: url("https://img.icons8.com/color/96/000000/frying-pan.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        bottom: 15%;
+        right: 5%;
+      }
+
+      .kitchen-element.spoon {
+        width: 80px;
+        height: 80px;
+        background-image: url("https://img.icons8.com/color/96/000000/spoon.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        top: 20%;
+        right: 15%;
+        transform: rotate(45deg);
+      }
+
+      /* Chef characters */
+      .chef-character {
+        position: relative;
+        margin-right: 20px;
+        z-index: 1;
+        transform-origin: bottom center;
+        animation: chefBounce 8s ease-in-out infinite;
+      }
+
+      .female-chef-character {
+        position: relative;
+        margin-left: 20px;
+        z-index: 2;
+        transform-origin: bottom center;
+        animation: chefBounce 8s ease-in-out infinite reverse;
+      }
+
+      @keyframes chefBounce {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-3deg);
+        }
+        75% {
+          transform: rotate(3deg);
+        }
+      }
+
+      .chef-image {
+        width: 300px;
+        height: 380px;
+        background: url("image/c1.jpg") no-repeat center center;
+        background-size: contain;
+        position: relative;
+        filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+        animation: float 6s ease-in-out infinite;
+        mix-blend-mode: multiply;
+      }
+
+      .female-chef-image {
+        width: 300px;
+        height: 380px;
+        background: url("image/c2.jpg") no-repeat center center;
+        background-size: contain;
+        position: relative;
+        filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+        animation: float 6s ease-in-out infinite reverse;
+        mix-blend-mode: multiply;
+      }
+
+      /* Chef image animations */
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      /* Speech bubbles */
+      .speech-bubble {
+        position: absolute;
+        background: white;
+        padding: 15px 20px;
+        border-radius: 15px;
+        max-width: 280px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-out forwards, glowPulse 4s infinite alternate;
+        opacity: 0;
+        transform: translateY(20px);
+        border: 1px solid rgba(233, 64, 87, 0.2);
+        background-image: linear-gradient(
+          to bottom,
+          white,
+          rgba(249, 202, 36, 0.05)
+        );
+      }
+
+      @keyframes glowPulse {
+        0% {
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        100% {
+          box-shadow: 0 10px 30px rgba(233, 64, 87, 0.3);
+        }
+      }
+
+      .chef-speech {
+        top: 30px;
+        right: -20px;
+        animation-delay: 0.5s;
+      }
+
+      .female-chef-speech {
+        top: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation-delay: 1s;
+        z-index: 10;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .speech-bubble::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: white;
+        transform: rotate(45deg);
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
+        z-index: -1;
+        border: 2px solid rgba(233, 64, 87, 0.2);
+        border-top: none;
+        border-left: none;
+      }
+
+      .speech-bubble::before {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        border: 1px dashed rgba(233, 64, 87, 0.2);
+        border-radius: 15px;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .chef-speech::after {
+        bottom: -15px;
+        left: 50px;
+      }
+
+      .female-chef-speech::after {
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%) rotate(225deg);
+      }
+
+      .speech-bubble p {
+        font-size: 1rem;
+        line-height: 1.4;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+        font-family: "Playfair Display", serif;
+        text-align: center;
+        color: #333;
+      }
+
+      .speech-bubble p::before {
+        content: ""
+          ";
+        font-size: 1.8rem;
+        position: absolute;
+        top: -15px;
+        left: 0;
+        color: rgba(233, 64, 87, 0.5);
+      }
+
+      .speech-bubble p::after {
+        content: "
+          "";
+        font-size: 1.8rem;
+        position: absolute;
+        bottom: -30px;
+        right: 0;
+        color: rgba(233, 64, 87, 0.5);
+      }
+
+      /* CTA Button */
+      .cta-button {
+        display: inline-block;
+        padding: 1.2rem 3rem;
+        background: var(--spicy-gradient);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 50px;
+        box-shadow: 0 10px 20px rgba(233, 64, 87, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        margin-top: 2rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .cta-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--fresh-gradient);
+        z-index: -1;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 30px rgba(233, 64, 87, 0.4);
+      }
+
+      .cta-button:hover::before {
+        opacity: 1;
+      }
+
+      .cta-button i {
+        margin-left: 10px;
+        transition: transform 0.3s ease;
+      }
+
+      .cta-button:hover i {
+        transform: translateX(5px);
+      }
+
+      /* Animated food items */
+      .food-items-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .food-item {
+        position: absolute;
+        opacity: 0.7;
+        z-index: -1;
+        animation: floatFood 20s linear infinite;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+      }
+
+      .food-item img {
+        width: 60px;
+        height: 60px;
+      }
+
+      #tomato {
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+      }
+
+      #carrot {
+        top: 20%;
+        right: 10%;
+        animation-delay: 2s;
+      }
+
+      #broccoli {
+        bottom: 15%;
+        left: 15%;
+        animation-delay: 4s;
+      }
+
+      #pepper {
+        bottom: 30%;
+        right: 5%;
+        animation-delay: 6s;
+      }
+
+      #mushroom {
+        top: 40%;
+        left: 10%;
+        animation-delay: 8s;
+      }
+
+      #pizza {
+        top: 15%;
+        right: 20%;
+        animation-delay: 10s;
+      }
+
+      #burger {
+        bottom: 20%;
+        left: 25%;
+        animation-delay: 12s;
+      }
+
+      #pasta {
+        top: 50%;
+        right: 15%;
+        animation-delay: 14s;
+      }
+
+      #cupcake {
+        bottom: 10%;
+        right: 25%;
+        animation-delay: 16s;
+      }
+
+      #sushi {
+        top: 30%;
+        left: 20%;
+        animation-delay: 18s;
+      }
+
+      @keyframes floatFood {
+        0% {
+          transform: translate(0, 0) rotate(0deg) scale(1);
+        }
+        25% {
+          transform: translate(100px, 50px) rotate(90deg) scale(1.1);
+        }
+        50% {
+          transform: translate(0, 100px) rotate(180deg) scale(1);
+        }
+        75% {
+          transform: translate(-100px, 50px) rotate(270deg) scale(0.9);
+        }
+        100% {
+          transform: translate(0, 0) rotate(360deg) scale(1);
+        }
+      }
+
+      /* Steam animation */
+      .steam {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        z-index: 5;
+      }
+
+      .steam span {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: white;
+        opacity: 0;
+        animation: steam 2s infinite ease-out;
+      }
+
+      .steam span:nth-child(1) {
+        left: 10px;
+        animation-delay: 0.2s;
+      }
+
+      .steam span:nth-child(2) {
+        left: 25px;
+        animation-delay: 0.4s;
+      }
+
+      .steam span:nth-child(3) {
+        left: 40px;
+        animation-delay: 0.6s;
+      }
+
+      @keyframes steam {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-40px) scale(2);
+          opacity: 0;
+        }
+      }
+
+      /* Responsive styles */
+      @media (max-width: 1200px) {
+        .chef-image,
+        .female-chef-image {
+          width: 320px;
+          height: 420px;
+        }
+
+        .chef-character {
+          margin-right: -60px;
+        }
+
+        .female-chef-character {
+          margin-left: -60px;
+        }
+
+        .welcome-text {
+          padding: 2rem;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .welcome-content {
+          flex-direction: column-reverse;
+        }
+
+        .characters-container {
+          margin-bottom: 40px;
+        }
+
+        .chef-image,
+        .female-chef-image {
+          width: 280px;
+          height: 380px;
+        }
+
+        .chef-character {
+          margin-right: -40px;
+        }
+
+        .female-chef-character {
+          margin-left: -40px;
+        }
+
+        h1 {
+          font-size: 3rem;
+        }
+
+        .tagline {
+          font-size: 1.2rem;
+        }
+
+        .speech-bubble {
+          max-width: 220px;
+          padding: 15px;
+        }
+
+        .speech-bubble p {
+          font-size: 0.9rem;
+        }
+
+        .welcome-text h2 {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .welcome-container {
+          padding: 1.5rem;
+        }
+
+        .logo-plate {
+          width: 100px;
+          height: 100px;
+        }
+
+        .logo-plate i {
+          font-size: 2.5rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .characters-container {
+          flex-direction: column;
+          gap: 40px;
+          min-height: 400px;
+          padding-bottom: 30px;
+        }
+
+        .chef-character,
+        .female-chef-character {
+          margin: 0;
+        }
+
+        .chef-image,
+        .female-chef-image {
+          width: 200px;
+          height: 280px;
+        }
+
+        .speech-bubble {
+          position: relative;
+          top: 0;
+          left: 0;
+          right: 0;
+          margin-top: 20px;
+          max-width: 80%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .female-chef-speech {
+          position: relative;
+          top: 0;
+          transform: none;
+        }
+
+        .speech-bubble::after {
+          display: none;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .welcome-text {
+          padding: 1.5rem;
+        }
+
+        .welcome-text h2 {
+          font-size: 1.8rem;
+        }
+
+        .feature-list li {
+          font-size: 1rem;
+        }
+
+        .cta-button {
+          padding: 1rem 2rem;
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background elements -->
+    <div class="wooden-bg"></div>
+    <div class="kitchen-counter"></div>
+
+    <div class="welcome-container">
+      <div class="header">
+        <div class="logo-plate">
+          <i class="fas fa-utensils"></i>
+          <div class="steam">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <h1>Epic <span>Food</span> Assistant</h1>
+        <p class="tagline">
+          AI-powered culinary companion for delicious recipes and meal planning
+        </p>
+      </div>
+
+      <div class="welcome-content">
+        <div class="welcome-text">
+          <h2>Culinary Magic Awaits!</h2>
+          <p>
+            Our intelligent food assistant understands your preferences and
+            ingredients to create perfect meals every time.
+          </p>
+
+          <ul class="feature-list">
+            <li>
+              <i class="fas fa-utensils"></i> Personalized recipe
+              recommendations based on your preferences
+            </li>
+            <li>
+              <i class="fas fa-carrot"></i> Smart meal planning using
+              ingredients you already have
+            </li>
+            <li>
+              <i class="fas fa-heartbeat"></i> Dietary-friendly recipes for any
+              health requirement
+            </li>
+            <li>
+              <i class="fas fa-book-open"></i> Step-by-step cooking instructions
+              with voice guidance
+            </li>
+            <li>
+              <i class="fas fa-star"></i> Save and organize your culinary
+              masterpieces
+            </li>
+          </ul>
+
+          <p>
+            Our AI assistant transforms your kitchen experience and makes every
+            meal special.
+          </p>
+
+          <a href="simple-app.html" class="cta-button">
+            Start Cooking <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="characters-container">
+          <div class="kitchen-elements">
+            <div class="kitchen-element pot"></div>
+            <div class="kitchen-element pan"></div>
+            <div class="kitchen-element spoon"></div>
+          </div>
+
+          <div class="chef-character">
+            <div class="chef-image"></div>
+          </div>
+
+          <div class="female-chef-character">
+            <div class="female-chef-image"></div>
+            <div class="speech-bubble female-chef-speech">
+              <p>
+                "Click 'Start Cooking' to create delicious meals with your
+                favorite ingredients!"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated food items -->
+    <div class="food-items-container">
+      <div class="food-item" id="tomato">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/tomato-emoji.png"
+          alt="Tomato"
+        />
+      </div>
+      <div class="food-item" id="carrot">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/carrot-emoji.png"
+          alt="Carrot"
+        />
+      </div>
+      <div class="food-item" id="broccoli">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/broccoli-emoji.png"
+          alt="Broccoli"
+        />
+      </div>
+      <div class="food-item" id="pepper">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/hot-pepper-emoji.png"
+          alt="Pepper"
+        />
+      </div>
+      <div class="food-item" id="mushroom">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/mushroom-emoji.png"
+          alt="Mushroom"
+        />
+      </div>
+      <div class="food-item" id="pizza">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/pizza-emoji.png"
+          alt="Pizza"
+        />
+      </div>
+      <div class="food-item" id="burger">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/hamburger-emoji.png"
+          alt="Burger"
+        />
+      </div>
+      <div class="food-item" id="pasta">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/spaghetti-emoji.png"
+          alt="Pasta"
+        />
+      </div>
+      <div class="food-item" id="cupcake">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/cupcake-emoji.png"
+          alt="Cupcake"
+        />
+      </div>
+      <div class="food-item" id="sushi">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/sushi-emoji.png"
+          alt="Sushi"
+        />
+      </div>
+    </div>
+    
+    
+    <style>
+      
+      /* Test Button Style */
+      .test-deepseek-btn {
+        background: linear-gradient(135deg, #4ecdc4, #1abc9c);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 10px;
+        box-shadow: 0 3px 10px rgba(78, 205, 196, 0.3);
+        transition: all 0.3s ease;
+      }
+      
+      .test-deepseek-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+      }
+    </style>
+
+    <!-- DeepSeek API Script -->
+    <script>
+      // DeepSeek API Configuration - Replace with your actual API key
+      const deepseekConfig = {
+        // ========================================
+        // PLACE YOUR DEEPSEEK API KEY HERE 👇
+        apiKey: "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", // <-- Replace this with your DeepSeek API key
+        // ========================================
+        baseUrl: "https://api.deepseek.com/v1",
+        model: "deepseek-chat", // Default model
+        temperature: 0.7,
+        max_tokens: 1000
+      };
+
+      // Function to send a message to DeepSeek API
+      async function sendMessageToDeepseek(userMessage) {
+        // Show typing indicator
+        const typingIndicator = createTypingIndicator();
+        document.getElementById('chat-messages').appendChild(typingIndicator);
+        const messagesContainer = document.getElementById('chat-messages');
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        try {
+          console.log("Sending request to DeepSeek API...");
+          
+          // Prepare the request
+          const response = await fetch(`${deepseekConfig.baseUrl}/chat/completions`, {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${deepseekConfig.apiKey}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              model: deepseekConfig.model,
+              messages: [
+                { role: "system", content: "You are a helpful AI chef assistant that provides cooking advice, recipes, and tips about food." },
+                { role: "user", content: userMessage }
+              ],
+              temperature: deepseekConfig.temperature,
+              max_tokens: deepseekConfig.max_tokens
+            })
+          });
+
+          // Remove typing indicator
+          typingIndicator.remove();
+          
+          if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+          }
+
+          const data = await response.json();
+          const assistantResponse = data.choices[0].message.content;
+          
+          // Display in chat
+          window.debug.addMessageToChatDirect(assistantResponse, true);
+          
+          // Return the response
+          return assistantResponse;
+          
+        } catch (error) {
+          console.error("DeepSeek API error:", error);
+          
+          // Remove typing indicator if still there
+          if (typingIndicator.parentNode) {
+            typingIndicator.remove();
+          }
+          
+          // Show error message
+          window.debug.addMessageToChatDirect(
+            `Error connecting to DeepSeek API: ${error.message}. Please check your API key and try again.`, 
+            true
+          );
+          
+          return null;
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        
+        // Add test button to check DeepSeek API
+        const chatActions = document.querySelector('.chat-actions');
+        if (chatActions) {
+          const testButton = document.createElement('button');
+          testButton.className = 'test-deepseek-btn';
+          testButton.textContent = 'Test DeepSeek';
+          testButton.onclick = () => {
+            window.debug.addMessageToChatDirect("Testing DeepSeek API connection...", false);
+            sendMessageToDeepseek("Hello, can you share a quick recipe for pasta?");
+          };
+          chatActions.appendChild(testButton);
+        }
+      });
+    </script>
+  </body>
+</html>

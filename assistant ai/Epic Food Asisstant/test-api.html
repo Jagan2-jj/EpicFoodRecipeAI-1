@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini API Test</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      h1 {
+        color: #ff6b6b;
+      }
+      .input-container {
+        margin-bottom: 20px;
+      }
+      textarea {
+        width: 100%;
+        height: 100px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #ff5252;
+      }
+      #response {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        min-height: 200px;
+      }
+      .loading {
+        display: none;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Gemini API Test</h1>
+    <p>This page tests your Gemini API key to ensure it's working correctly.</p>
+
+    <div class="input-container">
+      <label for="api-key">Your Gemini API Key:</label>
+      <input
+        type="text"
+        id="api-key"
+        placeholder="Enter your API key here"
+        style="width: 100%; padding: 8px"
+      />
+    </div>
+
+    <div class="input-container">
+      <label for="prompt">Test Prompt:</label>
+      <textarea id="prompt">Suggest a quick and easy pasta recipe.</textarea>
+    </div>
+
+    <button id="test-button">Test API</button>
+
+    <div class="loading" id="loading">
+      Testing API connection... Please wait.
+    </div>
+
+    <h2>Response:</h2>
+    <div id="response">API response will appear here.</div>
+
+    <script>
+      document
+        .getElementById("test-button")
+        .addEventListener("click", async function () {
+          const apiKey = document.getElementById("api-key").value.trim();
+          const prompt = document.getElementById("prompt").value.trim();
+          const responseElement = document.getElementById("response");
+          const loadingElement = document.getElementById("loading");
+
+          if (!apiKey) {
+            responseElement.textContent = "Please enter your Gemini API key.";
+            return;
+          }
+
+          if (!prompt) {
+            responseElement.textContent = "Please enter a prompt to test.";
+            return;
+          }
+
+          // Show loading indicator
+          loadingElement.style.display = "block";
+          responseElement.textContent = "Waiting for response...";
+
+          try {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+            const payload = {
+              contents: [
+                {
+                  role: "user",
+                  parts: [{ text: prompt }],
+                },
+              ],
+            };
+
+            const response = await fetch(apiUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              if (
+                data.candidates &&
+                data.candidates[0] &&
+                data.candidates[0].content
+              ) {
+                responseElement.textContent =
+                  data.candidates[0].content.parts[0].text;
+              } else {
+                responseElement.textContent =
+                  "Received a response, but it was in an unexpected format: " +
+                  JSON.stringify(data);
+              }
+            } else {
+              responseElement.textContent = "Error: " + JSON.stringify(data);
+            }
+          } catch (error) {
+            responseElement.textContent = "Error: " + error.message;
+          } finally {
+            // Hide loading indicator
+            loadingElement.style.display = "none";
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epic Food Assistant - Deployment Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .test-item {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .test-item.warning {
+            border-left-color: #FF9800;
+        }
+        .test-item.error {
+            border-left-color: #F44336;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .status {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .success { color: #4CAF50; }
+        .warning { color: #FF9800; }
+        .error { color: #F44336; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Epic Food Assistant - Deployment Test</h1>
+        <p>This page tests if your deployment is ready for production.</p>
+        
+        <div id="tests">
+            <div class="test-item">
+                <strong>📁 File Access Test</strong>
+                <span class="status success" id="file-test">✅ PASSED</span>
+                <p>HTML file is accessible and JavaScript is running.</p>
+            </div>
+            
+            <div class="test-item" id="api-key-test">
+                <strong>🔑 API Key Test</strong>
+                <span class="status" id="api-status">🔄 Testing...</span>
+                <p id="api-message">Checking API key configuration...</p>
+            </div>
+            
+            <div class="test-item" id="storage-test">
+                <strong>💾 Local Storage Test</strong>
+                <span class="status" id="storage-status">🔄 Testing...</span>
+                <p id="storage-message">Testing browser storage capabilities...</p>
+            </div>
+            
+            <div class="test-item" id="network-test">
+                <strong>🌐 Network Test</strong>
+                <span class="status" id="network-status">🔄 Testing...</span>
+                <p id="network-message">Testing network connectivity...</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <button onclick="runApiTest()">🧪 Test API Call</button>
+            <button onclick="clearStorage()">🗑️ Clear Stored Data</button>
+            <button onclick="window.location.href='simple-app.html'">🚀 Launch App</button>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">
+            <p><strong>Deployment Status:</strong> <span id="deployment-status">Checking...</span></p>
+            <p><strong>Timestamp:</strong> <span id="timestamp"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Set timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        
+        // Test API key configuration
+        function testApiKey() {
+            const apiKeyTest = document.getElementById('api-key-test');
+            const apiStatus = document.getElementById('api-status');
+            const apiMessage = document.getElementById('api-message');
+            
+            // Check for embedded API key
+            const EMBEDDED_API_KEY = "GEMINI_API_KEY_PLACEHOLDER";
+            const hasEmbeddedKey = EMBEDDED_API_KEY !== "GEMINI_API_KEY_PLACEHOLDER";
+            
+            // Check localStorage
+            const storedKey = localStorage.getItem('gemini_api_key');
+            
+            if (hasEmbeddedKey) {
+                apiStatus.textContent = '✅ EMBEDDED';
+                apiStatus.className = 'status success';
+                apiMessage.textContent = 'API key is embedded in the application (good for private deployments).';
+                apiKeyTest.className = 'test-item';
+            } else if (storedKey) {
+                apiStatus.textContent = '✅ STORED';
+                apiStatus.className = 'status success';
+                apiMessage.textContent = 'API key found in browser storage.';
+                apiKeyTest.className = 'test-item';
+            } else {
+                apiStatus.textContent = '⚠️ PROMPT';
+                apiStatus.className = 'status warning';
+                apiMessage.textContent = 'No API key found. Users will be prompted to enter their key.';
+                apiKeyTest.className = 'test-item warning';
+            }
+        }
+        
+        // Test local storage
+        function testStorage() {
+            const storageStatus = document.getElementById('storage-status');
+            const storageMessage = document.getElementById('storage-message');
+            const storageTest = document.getElementById('storage-test');
+            
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                storageStatus.textContent = '✅ WORKING';
+                storageStatus.className = 'status success';
+                storageMessage.textContent = 'Browser storage is available for API key persistence.';
+            } catch (e) {
+                storageStatus.textContent = '❌ FAILED';
+                storageStatus.className = 'status error';
+                storageMessage.textContent = 'Browser storage not available. API key will need to be entered each time.';
+                storageTest.className = 'test-item error';
+            }
+        }
+        
+        // Test network connectivity
+        function testNetwork() {
+            const networkStatus = document.getElementById('network-status');
+            const networkMessage = document.getElementById('network-message');
+            const networkTest = document.getElementById('network-test');
+            
+            fetch('https://www.google.com/favicon.ico', { mode: 'no-cors' })
+                .then(() => {
+                    networkStatus.textContent = '✅ CONNECTED';
+                    networkStatus.className = 'status success';
+                    networkMessage.textContent = 'Network connectivity is working.';
+                })
+                .catch(() => {
+                    networkStatus.textContent = '❌ OFFLINE';
+                    networkStatus.className = 'status error';
+                    networkMessage.textContent = 'Network connectivity issues detected.';
+                    networkTest.className = 'test-item error';
+                });
+        }
+        
+        // Run API test
+        function runApiTest() {
+            const apiKey = localStorage.getItem('gemini_api_key') || prompt('Enter your Gemini API key for testing:');
+            if (!apiKey) {
+                alert('API key required for testing');
+                return;
+            }
+            
+            if (!apiKey.startsWith('AIzaSy')) {
+                alert('Invalid API key format');
+                return;
+            }
+            
+            // Store for future use
+            localStorage.setItem('gemini_api_key', apiKey);
+            
+            // Test API call
+            fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: 'Hello, this is a test message.' }] }]
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.candidates && data.candidates[0]) {
+                    alert('✅ API Test Successful!\n\nYour deployment is ready to use.');
+                } else {
+                    alert('⚠️ API responded but with unexpected format. Check your API key permissions.');
+                }
+            })
+            .catch(error => {
+                alert('❌ API Test Failed!\n\nError: ' + error.message);
+            });
+        }
+        
+        // Clear storage
+        function clearStorage() {
+            localStorage.removeItem('gemini_api_key');
+            alert('Stored data cleared!');
+            location.reload();
+        }
+        
+        // Update deployment status
+        function updateDeploymentStatus() {
+            const status = document.getElementById('deployment-status');
+            const hasErrors = document.querySelectorAll('.test-item.error').length > 0;
+            const hasWarnings = document.querySelectorAll('.test-item.warning').length > 0;
+            
+            if (hasErrors) {
+                status.textContent = '❌ Issues Detected';
+                status.className = 'error';
+            } else if (hasWarnings) {
+                status.textContent = '⚠️ Ready with Warnings';
+                status.className = 'warning';
+            } else {
+                status.textContent = '✅ Ready for Production';
+                status.className = 'success';
+            }
+        }
+        
+        // Run tests
+        setTimeout(() => {
+            testApiKey();
+            testStorage();
+            testNetwork();
+            setTimeout(updateDeploymentStatus, 1000);
+        }, 500);
+    </script>
+</body>
+</html>

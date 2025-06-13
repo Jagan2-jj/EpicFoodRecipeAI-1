@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gemini API Test</h1>
+    <p>This page tests if your Gemini API key is working correctly.</p>
+    
+    <button id="testButton">Test API Key</button>
+    
+    <div id="result">Results will appear here...</div>
+    
+    <script>
+        document.getElementById('testButton').addEventListener('click', testAPI);
+        
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = "Testing API key...";
+            
+            const API_KEY = "AIzaSyAHYSDCx2aPAqWLiu73pRPolgWHd-ukKW0";
+            const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
+            
+            try {
+                const payload = {
+                    contents: [
+                        {
+                            role: "user",
+                            parts: [{ text: "Give me a simple recipe for pancakes." }]
+                        }
+                    ]
+                };
+                
+                const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                        resultDiv.textContent = "API Key is working! Response: " + 
+                            data.candidates[0].content.parts[0].text;
+                    } else {
+                        resultDiv.textContent = "Received response but in unexpected format: " + 
+                            JSON.stringify(data);
+                    }
+                } else {
+                    resultDiv.textContent = "API Error: " + JSON.stringify(data);
+                }
+            } catch (error) {
+                resultDiv.textContent = "Error testing API: " + error.message;
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>

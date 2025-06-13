@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tasty-login-oasis</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    // Initialize EmailJS with your User ID
+    emailjs.init("Xn2LRXSY2I2mRY_MW"); // Replace with your EmailJS User ID
+  </script>
+    <meta name="description" content="Lovable Generated Project" />
+    <meta name="author" content="Lovable" />
+
+    <meta property="og:title" content="tasty-login-oasis" />
+    <meta property="og:description" content="Lovable Generated Project" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        body.light {
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(230, 230, 250, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(245, 245, 250, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(240, 240, 255, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+        }
+
+        body.light::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(148, 163, 184, 0.05) 2px, rgba(148, 163, 184, 0.05) 4px),
+                repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(148, 163, 184, 0.03) 2px, rgba(148, 163, 184, 0.03) 4px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(6, 182, 212, 0.2);
+            border: 2px solid rgba(6, 182, 212, 0.4);
+            color: #06b6d4;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(6, 182, 212, 0.3);
+            border-color: rgba(6, 182, 212, 0.6);
+            transform: scale(1.1);
+        }
+
+        body.light .theme-toggle {
+            background: rgba(71, 85, 105, 0.1);
+            border-color: rgba(71, 85, 105, 0.2);
+            color: #475569;
+        }
+
+        body.light .theme-toggle:hover {
+            background: rgba(71, 85, 105, 0.15);
+            border-color: rgba(71, 85, 105, 0.3);
+        }
+
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        body.light .particle {
+            background: rgba(148, 163, 184, 0.15);
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) scale(1);
+                opacity: 0.2;
+            }
+            50% { 
+                transform: translateY(-30px) translateX(15px) scale(1.2);
+                opacity: 0.4;
+            }
+        }
+
+        /* Geometric Shapes Background */
+        .geometric-shape {
+            position: absolute;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            animation: geometricFloat 12s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        body.light .geometric-shape {
+            border-color: rgba(148, 163, 184, 0.2);
+            background: rgba(248, 250, 252, 0.1);
+        }
+
+        .geometric-shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            transform: rotate(45deg);
+            animation-delay: 0s;
+        }
+
+        .geometric-shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 70%;
+            right: 15%;
+            border-radius: 50%;
+            animation-delay: -2s;
+        }
+
+        .geometric-shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 20%;
+            transform: rotate(30deg);
+            animation-delay: -4s;
+        }
+
+        .geometric-shape:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            top: 30%;
+            right: 25%;
+            border-radius: 50%;
+            animation-delay: -6s;
+        }
+
+        .geometric-shape:nth-child(5) {
+            width: 40px;
+            height: 40px;
+            top: 80%;
+            right: 40%;
+            transform: rotate(60deg);
+            animation-delay: -8s;
+        }
+
+        .geometric-shape:nth-child(6) {
+            width: 90px;
+            height: 90px;
+            top: 15%;
+            left: 70%;
+            transform: rotate(15deg);
+            animation-delay: -10s;
+        }
+
+        @keyframes geometricFloat {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% { 
+                transform: translateY(-20px) translateX(10px) rotate(90deg);
+                opacity: 0.5;
+            }
+            50% { 
+                transform: translateY(-40px) translateX(-10px) rotate(180deg);
+                opacity: 0.3;
+            }
+            75% { 
+                transform: translateY(-20px) translateX(-20px) rotate(270deg);
+                opacity: 0.5;
+            }
+        }
+
+        /* Floating Lines */
+        .floating-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.3), transparent);
+            height: 1px;
+            animation: floatLine 15s linear infinite;
+            pointer-events: none;
+        }
+
+        body.light .floating-line {
+            background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.3), transparent);
+        }
+
+        .floating-line:nth-child(odd) {
+            width: 200px;
+            animation-duration: 20s;
+        }
+
+        .floating-line:nth-child(even) {
+            width: 150px;
+            animation-duration: 25s;
+        }
+
+        @keyframes floatLine {
+            0% {
+                transform: translateX(-100vw) translateY(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw) translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        .auth-container {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                0 0 60px rgba(6, 182, 212, 0.15),
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            min-width: 400px;
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s ease;
+        }
+
+        body.light .auth-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(148, 163, 184, 0.3);
+            box-shadow: 
+                0 0 60px rgba(148, 163, 184, 0.1),
+                0 25px 50px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg, 
+                rgba(6, 182, 212, 0.6) 0%, 
+                rgba(59, 130, 246, 0.4) 30%,
+                rgba(139, 92, 246, 0.4) 70%, 
+                rgba(6, 182, 212, 0.6) 100%);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            z-index: -1;
+            transition: all 0.5s ease;
+        }
+
+        body.light .auth-container::before {
+            background: linear-gradient(135deg, 
+                rgba(148, 163, 184, 0.4) 0%, 
+                rgba(100, 116, 139, 0.3) 30%,
+                rgba(71, 85, 105, 0.3) 70%, 
+                rgba(148, 163, 184, 0.4) 100%);
+        }
+
+        .auth-form {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-hidden {
+            display: none;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.5s ease;
+        }
+
+        body.light .auth-title {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .auth-subtitle {
+            color: #94a3b8;
+            font-size: 15px;
+            font-weight: 400;
+            transition: all 0.5s ease;
+        }
+
+        body.light .auth-subtitle {
+            color: #64748b;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 18px;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 12px;
+            font-size: 15px;
+            background: rgba(15, 23, 42, 0.6);
+            color: #f8fafc;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        body.light .form-input {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1e293b;
+            border-color: rgba(148, 163, 184, 0.3);
+        }
+
+        .form-input::placeholder {
+            color: #64748b;
+        }
+
+        body.light .form-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-input:focus {
+            border-color: #06b6d4;
+            box-shadow: 
+                0 0 0 3px rgba(6, 182, 212, 0.15),
+                0 0 20px rgba(6, 182, 212, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        body.light .form-input:focus {
+            background: rgba(255, 255, 255, 1);
+            border-color: #475569;
+            box-shadow: 
+                0 0 0 3px rgba(71, 85, 105, 0.1),
+                0 0 20px rgba(71, 85, 105, 0.15);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .checkbox {
+            margin-right: 12px;
+            width: 16px;
+            height: 16px;
+            accent-color: #06b6d4;
+        }
+
+        body.light .checkbox {
+            accent-color: #475569;
+        }
+
+        .checkbox-label {
+            color: #cbd5e1;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        body.light .checkbox-label {
+            color: #475569;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.light .login-btn {
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            color: white;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        body.light .login-btn::before {
+            background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+        }
+
+        .login-btn:hover::before {
+            opacity: 1;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 
+                0 0 25px rgba(6, 182, 212, 0.4),
+                0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light .login-btn:hover {
+            box-shadow: 
+                0 0 25px rgba(71, 85, 105, 0.3),
+                0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            transition: all 0.5s ease;
+        }
+
+        body.light .auth-footer {
+            color: #64748b;
+        }
+
+        .auth-link {
+            color: #06b6d4;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        body.light .auth-link {
+            color: #475569;
+        }
+
+        .auth-link:hover {
+            color: #0891b2;
+            text-decoration: underline;
+        }
+
+        body.light .auth-link:hover {
+            color: #334155;
+        }
+
+        .alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            font-size: 14px;
+            border-left: 3px solid;
+        }
+
+        .alert.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-left-color: #22c55e;
+        }
+
+        .alert.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-left-color: #ef4444;
+        }
+
+        body.light .alert.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #16a34a;
+        }
+
+        body.light .alert.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+
+        /* Glow effects */
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Loading animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .auth-container {
+                margin: 20px;
+                padding: 30px 24px;
+                min-width: auto;
+            }
+
+            .auth-title {
+                font-size: 1.8rem;
+            }
+
+            .theme-toggle {
+                width: 50px;
+                height: 50px;
+                top: 20px;
+                right: 20px;
+                font-size: 20px;
+            }
+
+            .geometric-shape {
+                display: none;
+            }
+        }
+    </style>
+    
+  </head>
+
+  <body>
+    <!-- Theme Toggle Button -->
+<!-- Theme Toggle Button -->
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+    <span id="themeIcon">🌙</span>
+</button>
+
+<script>
+    // Load saved theme or default to light
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const body = document.body;
+        const themeIcon = document.getElementById('themeIcon');
+
+        if (savedTheme === 'dark') {
+            body.classList.remove('light');
+            themeIcon.textContent = '☀️'; // Show sun to switch to light
+        } else {
+            body.classList.add('light');
+            themeIcon.textContent = '🌙'; // Show moon to switch to dark
+            localStorage.setItem('theme', 'light'); // Ensure saved
+        }
+    }
+
+    // Toggle between light and dark theme
+    function toggleTheme() {
+        const body = document.body;
+        const themeIcon = document.getElementById('themeIcon');
+        const isLight = body.classList.toggle('light');
+
+        if (isLight) {
+            themeIcon.textContent = '🌙'; // Show moon to switch to dark
+            localStorage.setItem('theme', 'light');
+        } else {
+            themeIcon.textContent = '☀️'; // Show sun to switch to light
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    // Apply theme on page load
+    window.addEventListener('DOMContentLoaded', loadTheme);
+</script>
+
+
+    <div class="bg-animation" id="bgAnimation">
+        <!-- Geometric Shapes -->
+        <div class="geometric-shape"></div>
+        <div class="geometric-shape"></div>
+        <div class="geometric-shape"></div>
+        <div class="geometric-shape"></div>
+        <div class="geometric-shape"></div>
+        <div class="geometric-shape"></div>
+        
+        <!-- Floating Lines -->
+        <div class="floating-line" style="top: 20%; animation-delay: 0s;"></div>
+        <div class="floating-line" style="top: 40%; animation-delay: 5s;"></div>
+        <div class="floating-line" style="top: 60%; animation-delay: 10s;"></div>
+        <div class="floating-line" style="top: 80%; animation-delay: 15s;"></div>
+    </div>
+
+    <div class="auth-container" id="authContainer">
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form">
+            <div class="auth-header">
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Sign in to your account</p>
+            </div>
+
+            <div id="loginAlert"></div>
+
+            <div class="form-group">
+                <input type="email" class="form-input" id="loginEmail" name="email" placeholder="Email address" required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="form-input" id="loginPassword" name="password" placeholder="Password" required>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" class="checkbox" id="rememberMe">
+                <label for="rememberMe" class="checkbox-label">Remember me for 30 days</label>
+            </div>
+
+            <button type="button" class="login-btn" onclick="handleLoginAndRedirect()">
+                             <span>Sign In</span>
+            </button>
+
+            <div class="auth-footer">
+                <span>Don't have an account? </span>
+                <a href="#" class="auth-link" onclick="showSignup()">Create account</a>
+            </div>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signupForm" class="auth-form form-hidden">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join us today</p>
+            </div>
+
+            <div id="signupAlert"></div>
+
+            <div class="form-group">
+                <input type="text" class="form-input" id="signupName" name="name" placeholder="Full name" required>
+            </div>
+
+            <div class="form-group">
+                <input type="email" class="form-input" id="signupEmail" name="email" placeholder="Email address" required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="form-input" id="signupPassword" name="password" placeholder="Password" minlength="6" required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="form-input" id="signupConfirmPassword" name="confirmPassword" placeholder="Confirm password" required>
+            </div>
+
+            <button type="button" class="login-btn" onclick="handleSignup()">
+                <span>Create Account</span>
+            </button>
+
+            <div class="auth-footer">
+                <span>Already have an account? </span>
+                <a href="#" class="auth-link" onclick="showLogin()">Sign in</a>
+            </div>
+        </form>
+    </div>
+
+<script>
+const BACKEND_URL = "https://epicfoodrecipeai-2.onrender.com";
+
+// LOGIN HANDLER
+async function handleLoginAndRedirect() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || data.error) {
+            showAlert('loginAlert', data.error || 'Login failed', 'error');
+            return;
+        }
+
+        showAlert('loginAlert', 'Login successful! Redirecting...', 'success');
+        setTimeout(() => {
+            window.location.href = "../../epic food j/food-website-main/main.html";
+        }, 1500);
+    } catch (error) {
+        console.error("Login error:", error);
+        showAlert('loginAlert', 'Network error. Please try again.', 'error');
+    }
+}
+
+// SIGNUP HANDLER
+async function handleSignup() {
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('signupConfirmPassword').value;
+    const username = name;
+
+    if (password !== confirmPassword) {
+        showAlert('signupAlert', 'Passwords do not match!', 'error');
+        return;
+    }
+
+    if (password.length < 6) {
+        showAlert('signupAlert', 'Password must be at least 6 characters!', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password, confirmPassword })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Optional IP & email sending logic
+            let ipAddress = "Unknown";
+            try {
+                const ipResponse = await fetch("https://api.ipify.org?format=json");
+                const ipData = await ipResponse.json();
+                ipAddress = ipData.ip || "Unknown";
+            } catch (ipErr) {
+                console.warn("Failed to fetch IP:", ipErr);
+            }
+
+            try {
+                await emailjs.send("service_91ho7n8", "template_sdj0vh9", {
+                    name: name,
+                    email: email,
+                    username: username,
+                    time: new Date().toLocaleString(),
+                    ip: ipAddress,
+                    account_type: "New Account"
+                });
+                console.log("Welcome email sent");
+            } catch (emailErr) {
+                console.error("EmailJS error:", emailErr);
+            }
+
+            showAlert('signupAlert', 'Registration successful! You can now login.', 'success');
+            setTimeout(() => {
+                showLogin();
+            }, 2000);
+        } else {
+            showAlert('signupAlert', data.error || 'Registration failed', 'error');
+        }
+    } catch (error) {
+        showAlert('signupAlert', 'Network error. Please try again.', 'error');
+        console.error('Signup error:', error);
+    }
+}
+
+// THEME TOGGLE
+function toggleTheme() {
+    const body = document.body;
+    const themeIcon = document.getElementById('themeIcon');
+    const isLight = body.classList.toggle('light');
+
+    if (isLight) {
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+    } else {
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// LOAD THEME ON START
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const body = document.body;
+    const themeIcon = document.getElementById('themeIcon');
+
+    if (savedTheme === 'light') {
+        body.classList.add('light');
+        themeIcon.textContent = '🌙';
+    } else {
+        themeIcon.textContent = '☀️';
+    }
+}
+
+// PARTICLE BACKGROUND
+function createParticles() {
+    const bgAnimation = document.getElementById('bgAnimation');
+    const particleCount = 40;
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 4 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 8 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        bgAnimation.appendChild(particle);
+    }
+}
+
+// FORM SWITCHING
+function showLogin() {
+    document.getElementById('loginForm').classList.remove('form-hidden');
+    document.getElementById('signupForm').classList.add('form-hidden');
+    clearAlerts();
+}
+
+function showSignup() {
+    document.getElementById('signupForm').classList.remove('form-hidden');
+    document.getElementById('loginForm').classList.add('form-hidden');
+    clearAlerts();
+}
+
+// ALERT HANDLING
+function showAlert(containerId, message, type) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = `<div class="alert ${type}">${message}</div>`;
+}
+
+function clearAlerts() {
+    document.getElementById('loginAlert').innerHTML = '';
+    document.getElementById('signupAlert').innerHTML = '';
+}
+
+// INITIALIZATION
+document.addEventListener('DOMContentLoaded', function () {
+    loadTheme();
+    createParticles();
+});
+</script>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

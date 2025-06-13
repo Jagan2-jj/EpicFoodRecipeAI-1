@@ -1,0 +1,4209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Epic Food Assistant</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
+        --accent-color: #ffe66d;
+        --dark-color: #2d3436;
+        --light-color: #f9f9f9;
+        --gradient: linear-gradient(135deg, var(--primary-color), #ff8e53);
+
+        /* Additional theme colors */
+        --purple-color: #9b59b6;
+        --blue-color: #3498db;
+        --green-color: #2ecc71;
+        --orange-color: #e67e22;
+        --teal-color: #1abc9c;
+
+        /* Gradients */
+        --purple-gradient: linear-gradient(135deg, #9b59b6, #8e44ad);
+        --blue-gradient: linear-gradient(135deg, #3498db, #2980b9);
+        --green-gradient: linear-gradient(135deg, #2ecc71, #27ae60);
+        --orange-gradient: linear-gradient(135deg, #e67e22, #d35400);
+        --teal-gradient: linear-gradient(135deg, #1abc9c, #16a085);
+        --rainbow-gradient: linear-gradient(
+          to right,
+          #ff6b6b,
+          #ff8e53,
+          #ffe66d,
+          #4ecdc4,
+          #9b59b6
+        );
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f5f7fa;
+        background-image: radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 107, 107, 0.1) 0%,
+            rgba(255, 107, 107, 0) 90%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(78, 205, 196, 0.1) 0%,
+            rgba(78, 205, 196, 0) 90%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(155, 89, 182, 0.05) 0%,
+            rgba(155, 89, 182, 0) 70%
+          ),
+          radial-gradient(
+            circle at 20% 90%,
+            rgba(46, 204, 113, 0.1) 0%,
+            rgba(46, 204, 113, 0) 80%
+          ),
+          radial-gradient(
+            circle at 80% 10%,
+            rgba(230, 126, 34, 0.08) 0%,
+            rgba(230, 126, 34, 0) 80%
+          );
+        background-size: 200% 200%;
+        animation: gradientShift 15s ease infinite;
+        color: var(--dark-color);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 20px;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Subtle pattern overlay */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="1" fill="%23f0f0f0" /></svg>');
+        background-size: 20px 20px;
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 0%;
+        }
+        50% {
+          background-position: 100% 100%;
+        }
+        100% {
+          background-position: 0% 0%;
+        }
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+        animation: fadeInDown 1s ease-out;
+      }
+
+      /* Theme Switcher */
+      .theme-switcher {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .theme-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        background-color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .theme-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .theme-btn.active {
+        border-color: var(--primary-color);
+        transform: scale(1.1);
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+        background: var(--rainbow-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        letter-spacing: 1px;
+        font-weight: 700;
+      }
+
+      h1::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: var(--rainbow-gradient);
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+      }
+
+      h1 span {
+        position: relative;
+        display: inline-block;
+        transform: rotate(-5deg) translateY(5px);
+        color: var(--primary-color);
+        text-shadow: 2px 2px 0 rgba(255, 142, 83, 0.3);
+        animation: titleBounce 5s infinite ease-in-out;
+      }
+
+      @keyframes titleBounce {
+        0%,
+        100% {
+          transform: rotate(-5deg) translateY(5px);
+        }
+        50% {
+          transform: rotate(-3deg) translateY(0);
+        }
+      }
+
+      header p {
+        color: #666;
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 15px;
+        position: relative;
+        padding-bottom: 15px;
+      }
+
+      header p::after {
+        content: "🍽️";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.5rem;
+      }
+
+      #chat {
+        background-color: white;
+        border-radius: 25px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15),
+          0 10px 20px rgba(255, 107, 107, 0.1),
+          0 10px 20px rgba(78, 205, 196, 0.1);
+        padding: 35px;
+        height: 650px;
+        width: 100%;
+        overflow-y: auto;
+        margin-bottom: 25px;
+        scroll-behavior: smooth;
+        position: relative;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10 10L90 10L90 90L10 90Z" fill="none" stroke="%23f5f5f5" stroke-width="1"/></svg>'),
+          linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(255, 255, 255, 0.95) 50%,
+            rgba(255, 255, 255, 0.85) 100%
+          );
+        background-size: 20px 20px, cover;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        backdrop-filter: blur(10px);
+        z-index: 10;
+      }
+
+      /* Animated chat box background */
+      #chat::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(255, 107, 107, 0.03) 0%,
+          rgba(78, 205, 196, 0.03) 25%,
+          rgba(155, 89, 182, 0.03) 50%,
+          rgba(46, 204, 113, 0.03) 75%,
+          rgba(230, 126, 34, 0.03) 100%
+        );
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease infinite;
+        border-radius: 25px;
+        z-index: -1;
+      }
+
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      #chat:hover {
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2),
+          0 10px 20px rgba(255, 107, 107, 0.15),
+          0 10px 20px rgba(78, 205, 196, 0.15);
+        transform: translateY(-5px);
+      }
+
+      .message {
+        max-width: 80%;
+        margin-bottom: 15px;
+        animation: fadeIn 0.5s ease-out;
+        position: relative;
+        clear: both;
+      }
+
+      .user-message {
+        background: var(--gradient);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 18px 18px 0 18px;
+        float: right;
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .user-message::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(255, 255, 255, 0) 50%
+        );
+        pointer-events: none;
+      }
+
+      .user-message::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        opacity: 0.2;
+      }
+
+      .bot-message {
+        background: linear-gradient(135deg, #f0f5ff 0%, #e6f0ff 100%);
+        color: #333;
+        padding: 15px 20px;
+        border-radius: 18px 18px 18px 0;
+        float: left;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        position: relative;
+        overflow: hidden;
+        border-left: 3px solid var(--secondary-color);
+      }
+
+      .bot-message::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(78, 205, 196, 0.1) 0%,
+          rgba(78, 205, 196, 0) 50%
+        );
+        pointer-events: none;
+      }
+
+      .bot-message::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        background: var(--secondary-color);
+        border-radius: 50%;
+        opacity: 0.1;
+      }
+
+      .message-time {
+        font-size: 0.7rem;
+        color: #999;
+        margin-top: 5px;
+        text-align: right;
+      }
+
+      .input-container {
+        display: flex;
+        position: relative;
+        margin-top: 20px;
+      }
+
+      .input-wrapper {
+        position: relative;
+        flex-grow: 1;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 30px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .input-wrapper:focus-within {
+        box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+        transform: translateY(-2px);
+      }
+
+      #userInput {
+        width: 100%;
+        padding: 15px 100px 15px 20px;
+        border: none;
+        border-radius: 30px;
+        font-size: 1rem;
+        outline: none;
+        font-family: "Poppins", sans-serif;
+      }
+
+      #sendButton {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--gradient);
+        color: white;
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+      }
+
+      #voiceButton {
+        position: absolute;
+        right: 55px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #voiceButton:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      #voiceButton.recording {
+        background: var(--primary-color);
+        color: white;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+        }
+      }
+
+      #sendButton:hover {
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      .speak-button {
+        background: transparent;
+        color: var(--secondary-color);
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        opacity: 0.6;
+      }
+
+      .speak-button:hover {
+        opacity: 1;
+        transform: scale(1.1);
+        color: var(--primary-color);
+      }
+
+      .speak-button.speaking {
+        opacity: 1;
+        color: var(--primary-color);
+        animation: pulse-light 1.5s infinite;
+      }
+      
+      .stop-button {
+        background: transparent;
+        color: #ff6b6b;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 10px;
+        right: 45px;
+        opacity: 0.8;
+      }
+      
+      .stop-button:hover {
+        opacity: 1;
+        transform: scale(1.1);
+        color: #ff3333;
+      }
+
+      @keyframes pulse-light {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .bot-message {
+        position: relative;
+      }
+
+      .input-features {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .input-features button {
+        background: white;
+        color: var(--dark-color);
+        border: none;
+        border-radius: 20px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .input-features button:hover {
+        background: var(--gradient);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+      }
+
+      /* Voice Input Indicator */
+      .voice-indicator {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: white;
+        border-radius: 30px;
+        padding: 15px 25px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        z-index: 100;
+        opacity: 0;
+      }
+
+      .voice-indicator.active {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      .voice-wave {
+        display: flex;
+        align-items: center;
+        height: 30px;
+        gap: 3px;
+      }
+
+      .wave-bar {
+        width: 3px;
+        height: 15px;
+        background-color: var(--primary-color);
+        border-radius: 3px;
+        animation: waveAnimation 1s infinite ease-in-out;
+      }
+
+      .wave-bar:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+
+      .wave-bar:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+
+      .wave-bar:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+
+      .wave-bar:nth-child(5) {
+        animation-delay: 0.4s;
+      }
+
+      .wave-bar:nth-child(6) {
+        animation-delay: 0.5s;
+      }
+
+      @keyframes waveAnimation {
+        0%,
+        100% {
+          height: 5px;
+        }
+        50% {
+          height: 25px;
+        }
+      }
+
+      /* Saved Recipes Panel */
+      .saved-recipes-panel {
+        position: fixed;
+        top: 0;
+        right: -350px;
+        width: 350px;
+        height: 100%;
+        background: white;
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transition: right 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .saved-recipes-panel.active {
+        right: 0;
+      }
+
+      .panel-header {
+        padding: 20px;
+        background: var(--gradient);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .panel-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .panel-header button {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .panel-header button:hover {
+        transform: rotate(90deg);
+      }
+
+      .saved-recipes-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+      }
+
+      .saved-recipe-item {
+        background: #f9f9f9;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-left: 5px solid var(--primary-color);
+      }
+
+      .saved-recipe-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .saved-recipe-item h4 {
+        margin: 0 0 5px;
+        color: var(--dark-color);
+      }
+
+      .saved-recipe-item p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+        color: #999;
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        opacity: 0.3;
+      }
+
+      .suggestion-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .chip {
+        background-color: white;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.5s ease-out forwards;
+        opacity: 0;
+        transform: translateY(20px);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        font-weight: 500;
+      }
+
+      .chip::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(255, 255, 255, 0) 50%
+        );
+        pointer-events: none;
+      }
+
+      .chip:nth-child(2n) {
+        border-color: var(--purple-color);
+        color: var(--purple-color);
+      }
+
+      .chip:nth-child(3n) {
+        border-color: var(--blue-color);
+        color: var(--blue-color);
+      }
+
+      .chip:nth-child(4n) {
+        border-color: var(--green-color);
+        color: var(--green-color);
+      }
+
+      .chip:nth-child(5n) {
+        border-color: var(--orange-color);
+        color: var(--orange-color);
+      }
+
+      .chip:hover {
+        background: var(--gradient);
+        color: white;
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        border-color: transparent;
+      }
+
+      .chip:nth-child(2n):hover {
+        background: var(--purple-gradient);
+        box-shadow: 0 8px 20px rgba(155, 89, 182, 0.3);
+      }
+
+      .chip:nth-child(3n):hover {
+        background: var(--blue-gradient);
+        box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+      }
+
+      .chip:nth-child(4n):hover {
+        background: var(--green-gradient);
+        box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+      }
+
+      .chip:nth-child(5n):hover {
+        background: var(--orange-gradient);
+        box-shadow: 0 8px 20px rgba(230, 126, 34, 0.3);
+      }
+
+      /* Feature cards */
+      .feature-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin: 15px 0 20px 0;
+        width: 100%;
+      }
+
+      @media (max-width: 992px) {
+        .feature-cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 576px) {
+        .feature-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .feature-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.5s ease-out forwards;
+        opacity: 0;
+        transform: translateY(20px);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .feature-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 0.8),
+          transparent
+        );
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .feature-card:nth-child(1) {
+        animation-delay: 0.1s;
+        border-top: 5px solid var(--primary-color);
+      }
+
+      .feature-card:nth-child(2) {
+        animation-delay: 0.2s;
+        border-top: 5px solid var(--purple-color);
+      }
+
+      .feature-card:nth-child(3) {
+        animation-delay: 0.3s;
+        border-top: 5px solid var(--blue-color);
+      }
+
+      .feature-card:nth-child(4) {
+        animation-delay: 0.4s;
+        border-top: 5px solid var(--green-color);
+      }
+
+      .feature-card:nth-child(5) {
+        animation-delay: 0.5s;
+        border-top: 5px solid var(--orange-color);
+      }
+
+      .feature-card:nth-child(6) {
+        animation-delay: 0.6s;
+        border-top: 5px solid var(--teal-color);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-15px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12),
+          0 15px 20px rgba(255, 107, 107, 0.1);
+      }
+
+      .feature-card:hover::after {
+        opacity: 1;
+      }
+
+      .feature-card:nth-child(1):hover .feature-icon {
+        background: var(--gradient);
+        color: white;
+        transform: scale(1.2) rotate(10deg);
+      }
+
+      .feature-card:nth-child(2):hover .feature-icon {
+        background: var(--purple-gradient);
+        color: white;
+        transform: scale(1.2) rotate(-10deg);
+      }
+
+      .feature-card:nth-child(3):hover .feature-icon {
+        background: var(--blue-gradient);
+        color: white;
+        transform: scale(1.2) rotate(10deg);
+      }
+
+      .feature-card:nth-child(4):hover .feature-icon {
+        background: var(--green-gradient);
+        color: white;
+        transform: scale(1.2) rotate(-10deg);
+      }
+
+      .feature-card:nth-child(5):hover .feature-icon {
+        background: var(--orange-gradient);
+        color: white;
+        transform: scale(1.2) rotate(10deg);
+      }
+
+      .feature-card:nth-child(6):hover .feature-icon {
+        background: var(--teal-gradient);
+        color: white;
+        transform: scale(1.2) rotate(-10deg);
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(255, 255, 255, 0) 50%
+        );
+        pointer-events: none;
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        background-color: rgba(255, 107, 107, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-card:nth-child(2) .feature-icon {
+        background-color: rgba(155, 89, 182, 0.1);
+        color: var(--purple-color);
+      }
+
+      .feature-card:nth-child(3) .feature-icon {
+        background-color: rgba(52, 152, 219, 0.1);
+        color: var(--blue-color);
+      }
+
+      .feature-card:nth-child(4) .feature-icon {
+        background-color: rgba(46, 204, 113, 0.1);
+        color: var(--green-color);
+      }
+
+      .feature-card:nth-child(5) .feature-icon {
+        background-color: rgba(230, 126, 34, 0.1);
+        color: var(--orange-color);
+      }
+
+      .feature-card:nth-child(6) .feature-icon {
+        background-color: rgba(26, 188, 156, 0.1);
+        color: var(--teal-color);
+      }
+
+      .feature-icon::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 255, 255, 0.8),
+          rgba(255, 255, 255, 0) 70%
+        );
+        z-index: -1;
+      }
+
+      .feature-card h3 {
+        margin: 0 0 8px;
+        color: var(--dark-color);
+        font-size: 1.1rem;
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+      }
+
+      .feature-card:nth-child(1) h3 {
+        color: var(--primary-color);
+      }
+
+      .feature-card:nth-child(2) h3 {
+        color: var(--purple-color);
+      }
+
+      .feature-card:nth-child(3) h3 {
+        color: var(--blue-color);
+      }
+
+      .feature-card:nth-child(4) h3 {
+        color: var(--green-color);
+      }
+
+      .feature-card:nth-child(5) h3 {
+        color: var(--orange-color);
+      }
+
+      .feature-card:nth-child(6) h3 {
+        color: var(--teal-color);
+      }
+
+      .feature-card h3::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background: currentColor;
+        transition: width 0.3s ease;
+      }
+
+      .feature-card:hover h3::after {
+        width: 80%;
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: #666;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover p {
+        transform: translateY(5px);
+      }
+
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+      }
+
+      .typing-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #aaa;
+        border-radius: 50%;
+        margin: 0 2px;
+        animation: typingAnimation 1.5s infinite ease-in-out;
+      }
+
+      .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      .food-item {
+        position: absolute;
+        opacity: 0.6;
+        z-index: -1;
+        animation: float 15s infinite ease-in-out;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+      }
+
+      /* People silhouettes styling */
+      .people-silhouettes {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        z-index: -2;
+        pointer-events: none;
+      }
+
+      .person {
+        position: absolute;
+        bottom: 0;
+        animation: personFloat 20s infinite ease-in-out;
+      }
+
+      .person-1 {
+        left: 5%;
+        animation-delay: 0s;
+      }
+
+      .person-2 {
+        left: 25%;
+        animation-delay: 3s;
+      }
+
+      .person-3 {
+        left: 45%;
+        animation-delay: 6s;
+      }
+
+      .person-4 {
+        left: 65%;
+        animation-delay: 9s;
+      }
+
+      .person-5 {
+        left: 85%;
+        animation-delay: 12s;
+      }
+
+      @keyframes personFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-5px) rotate(-2deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(0deg);
+        }
+        75% {
+          transform: translateY(-5px) rotate(2deg);
+        }
+      }
+
+      #tomato {
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+      }
+
+      #carrot {
+        top: 70%;
+        right: 10%;
+        animation-delay: 2s;
+      }
+
+      #broccoli {
+        bottom: 20%;
+        left: 15%;
+        animation-delay: 4s;
+      }
+
+      #pepper {
+        top: 40%;
+        right: 5%;
+        animation-delay: 6s;
+      }
+
+      #mushroom {
+        top: 20%;
+        right: 20%;
+        animation-delay: 3s;
+      }
+
+      #avocado {
+        bottom: 40%;
+        left: 10%;
+        animation-delay: 5s;
+      }
+
+      #lemon {
+        top: 60%;
+        right: 15%;
+        animation-delay: 7s;
+      }
+
+      #pizza {
+        bottom: 10%;
+        right: 30%;
+        animation-delay: 1s;
+      }
+
+      /* Bubbles animation */
+      .bubbles {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -2;
+        overflow: hidden;
+      }
+
+      .bubble {
+        position: absolute;
+        bottom: -100px;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          to bottom right,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-radius: 50%;
+        opacity: 0.2;
+        animation: rise 15s infinite ease-in;
+      }
+
+      .bubble:nth-child(1) {
+        width: 40px;
+        height: 40px;
+        left: 10%;
+        animation-duration: 8s;
+      }
+
+      .bubble:nth-child(2) {
+        width: 20px;
+        height: 20px;
+        left: 20%;
+        animation-duration: 5s;
+        animation-delay: 1s;
+      }
+
+      .bubble:nth-child(3) {
+        width: 50px;
+        height: 50px;
+        left: 35%;
+        animation-duration: 10s;
+        animation-delay: 2s;
+      }
+
+      .bubble:nth-child(4) {
+        width: 80px;
+        height: 80px;
+        left: 50%;
+        animation-duration: 7s;
+        animation-delay: 0s;
+      }
+
+      .bubble:nth-child(5) {
+        width: 35px;
+        height: 35px;
+        left: 55%;
+        animation-duration: 6s;
+        animation-delay: 1s;
+      }
+
+      .bubble:nth-child(6) {
+        width: 45px;
+        height: 45px;
+        left: 65%;
+        animation-duration: 8s;
+        animation-delay: 3s;
+      }
+
+      .bubble:nth-child(7) {
+        width: 25px;
+        height: 25px;
+        left: 75%;
+        animation-duration: 7s;
+        animation-delay: 2s;
+      }
+
+      .bubble:nth-child(8) {
+        width: 80px;
+        height: 80px;
+        left: 80%;
+        animation-duration: 12s;
+        animation-delay: 2s;
+      }
+
+      .bubble:nth-child(9) {
+        width: 15px;
+        height: 15px;
+        left: 70%;
+        animation-duration: 5s;
+        animation-delay: 1s;
+      }
+
+      .bubble:nth-child(10) {
+        width: 50px;
+        height: 50px;
+        left: 85%;
+        animation-duration: 10s;
+        animation-delay: 4s;
+      }
+
+      @keyframes rise {
+        0% {
+          bottom: -100px;
+          transform: translateX(0) rotate(0);
+          opacity: 0.2;
+        }
+        50% {
+          transform: translateX(100px) rotate(180deg);
+          opacity: 0.6;
+        }
+        100% {
+          bottom: 1080px;
+          transform: translateX(-200px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes typingAnimation {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+          background-color: var(--primary-color);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-15px) rotate(5deg);
+        }
+        50% {
+          transform: translateY(0) rotate(0deg);
+        }
+        75% {
+          transform: translateY(15px) rotate(-5deg);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Loading animation */
+      .loading-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .loading-container.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .cooking-pot {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+      }
+
+      .pot-body {
+        width: 80px;
+        height: 60px;
+        background-color: #777;
+        border-radius: 0 0 40px 40px;
+        position: absolute;
+        bottom: 0;
+        left: 10px;
+      }
+
+      .pot-handle {
+        position: absolute;
+        width: 20px;
+        height: 30px;
+        border: 5px solid #777;
+        border-bottom: none;
+        border-radius: 20px 20px 0 0;
+      }
+
+      .pot-handle.left {
+        left: -15px;
+        top: 15px;
+      }
+
+      .pot-handle.right {
+        right: -15px;
+        top: 15px;
+      }
+
+      .steam {
+        position: absolute;
+        width: 10px;
+        height: 30px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        bottom: 60px;
+        left: 20px;
+        animation: steam 2s infinite ease-out;
+      }
+
+      .steam-2 {
+        left: 40px;
+        height: 35px;
+        animation-delay: 0.3s;
+      }
+
+      .steam-3 {
+        left: 60px;
+        height: 25px;
+        animation-delay: 0.6s;
+      }
+
+      @keyframes steam {
+        0% {
+          opacity: 0;
+          transform: translateY(0) scaleX(1);
+        }
+        15% {
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(-20px) scaleX(1.5);
+        }
+        95% {
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(-40px) scaleX(2);
+        }
+      }
+
+      /* Chef Character Styles */
+      .chef-character {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 220px;
+        height: 300px;
+        z-index: 100;
+        transform-origin: bottom center;
+        animation: chefBounce 4s infinite ease-in-out;
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .chef-character:hover {
+        transform: scale(1.05) translateY(-10px);
+      }
+
+      .chef-character:active {
+        transform: scale(0.95);
+      }
+
+      .chef-body {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+      }
+
+      .chef-head {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, #ffe0bd 0%, #ffcd94 100%);
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+        animation: headTilt 8s infinite ease-in-out;
+      }
+
+      @keyframes headTilt {
+        0%,
+        100% {
+          transform: translateX(-50%) rotate(0deg);
+        }
+        25% {
+          transform: translateX(-50%) rotate(5deg);
+        }
+        75% {
+          transform: translateX(-50%) rotate(-5deg);
+        }
+      }
+
+      .chef-face {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        animation: faceBounce 4s infinite ease-in-out;
+      }
+
+      @keyframes faceBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(2px);
+        }
+      }
+
+      .chef-eyes {
+        position: absolute;
+        top: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+      }
+
+      .chef-eye {
+        width: 14px;
+        height: 14px;
+        background: radial-gradient(circle at 30% 30%, #333 70%, #000 100%);
+        border-radius: 50%;
+        position: relative;
+        animation: blinkEyes 4s infinite;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .chef-eye::after {
+        content: "";
+        position: absolute;
+        top: 15%;
+        left: 15%;
+        width: 40%;
+        height: 40%;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+      }
+
+      .chef-eye.left {
+        left: 12px;
+        transform: rotate(-5deg);
+      }
+
+      .chef-eye.right {
+        right: 12px;
+        transform: rotate(5deg);
+      }
+
+      .chef-nose {
+        position: absolute;
+        top: 42px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 14px;
+        height: 14px;
+        background: linear-gradient(135deg, #ffcba4 0%, #ffb38a 100%);
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .chef-mouth {
+        position: absolute;
+        bottom: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 35px;
+        height: 12px;
+        border-bottom: 3px solid #333;
+        border-radius: 0 0 25px 25px;
+        animation: chefTalk 3s infinite;
+        position: relative;
+      }
+
+      .chef-mouth::before {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 5px;
+        background-color: #ff6b6b;
+        border-radius: 0 0 10px 10px;
+        opacity: 0.7;
+      }
+
+      .chef-mustache {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 45px;
+        height: 12px;
+        background-color: #333;
+        border-radius: 50%;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .chef-mustache::before,
+      .chef-mustache::after {
+        content: "";
+        position: absolute;
+        top: -2px;
+        width: 20px;
+        height: 10px;
+        background-color: #333;
+        border-radius: 50%;
+      }
+
+      .chef-mustache::before {
+        left: -10px;
+        transform: rotate(-20deg);
+      }
+
+      .chef-mustache::after {
+        right: -10px;
+        transform: rotate(20deg);
+      }
+
+      .chef-hat {
+        position: absolute;
+        top: -45px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+        filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+      }
+
+      .hat-base {
+        width: 100px;
+        height: 25px;
+        background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+        border-radius: 12px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e0e0e0;
+      }
+
+      .hat-base::after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        right: 10px;
+        height: 2px;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 1px;
+      }
+
+      .hat-top {
+        width: 80px;
+        height: 70px;
+        background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+        border-radius: 50% 50% 10% 10%;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e0e0e0;
+        overflow: hidden;
+        animation: hatWobble 5s infinite ease-in-out;
+      }
+
+      .hat-top::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 255, 255, 0.8) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            circle at 70% 70%,
+            rgba(255, 255, 255, 0.5) 0%,
+            transparent 50%
+          );
+      }
+
+      @keyframes hatWobble {
+        0%,
+        100% {
+          transform: translateX(-50%) rotate(0deg);
+        }
+        25% {
+          transform: translateX(-50%) rotate(3deg) translateY(-2px);
+        }
+        75% {
+          transform: translateX(-50%) rotate(-3deg) translateY(-2px);
+        }
+      }
+
+      .chef-torso {
+        position: absolute;
+        top: 90px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 140px;
+        background: linear-gradient(to bottom, #ffffff, #f8f8f8);
+        border-radius: 25px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        border: 1px solid #e0e0e0;
+        overflow: hidden;
+      }
+
+      .chef-torso::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 255, 255, 0.8) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            circle at 70% 70%,
+            rgba(255, 255, 255, 0.5) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+      }
+
+      .chef-torso::before {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 12px;
+        height: 12px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1), 20px 0 0 var(--primary-color),
+          40px 0 0 var(--primary-color), 60px 0 0 var(--primary-color),
+          80px 0 0 var(--primary-color), 0 25px 0 var(--primary-color),
+          20px 25px 0 var(--primary-color), 40px 25px 0 var(--primary-color),
+          60px 25px 0 var(--primary-color), 80px 25px 0 var(--primary-color);
+        z-index: 2;
+      }
+
+      /* Chef scarf/neckerchief */
+      .chef-scarf {
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 15px;
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        border-radius: 5px;
+        z-index: 3;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .chef-scarf::before,
+      .chef-scarf::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        width: 15px;
+        height: 20px;
+        background: linear-gradient(
+          to bottom,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        border-radius: 0 0 5px 5px;
+      }
+
+      .chef-scarf::before {
+        left: 5px;
+        transform: rotate(-15deg);
+      }
+
+      .chef-scarf::after {
+        right: 5px;
+        transform: rotate(15deg);
+      }
+
+      .chef-arm {
+        position: absolute;
+        width: 25px;
+        height: 80px;
+        background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+        border-radius: 12px;
+        z-index: 0;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+      }
+
+      .chef-arm.left {
+        left: -15px;
+        top: 20px;
+        transform-origin: top center;
+        animation: leftArmWave 4s infinite ease-in-out;
+      }
+
+      @keyframes leftArmWave {
+        0%,
+        100% {
+          transform: rotate(5deg);
+        }
+        50% {
+          transform: rotate(-15deg);
+        }
+      }
+
+      .chef-arm.right {
+        right: -15px;
+        top: 20px;
+        transform-origin: top center;
+        animation: rightArmWave 4s infinite ease-in-out;
+      }
+
+      @keyframes rightArmWave {
+        0%,
+        100% {
+          transform: rotate(-5deg);
+        }
+        50% {
+          transform: rotate(15deg);
+        }
+      }
+
+      /* Chef hands */
+      .chef-hand {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        background: linear-gradient(135deg, #ffe0bd 0%, #ffcd94 100%);
+        border-radius: 50%;
+        bottom: -10px;
+        left: 0;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      /* Chef utensils */
+      .chef-utensil {
+        position: absolute;
+        bottom: -35px;
+        width: 15px;
+        height: 50px;
+        z-index: -1;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .chef-spoon {
+        right: 5px;
+        background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+        border-radius: 5px 5px 15px 15px;
+        transform: rotate(15deg);
+      }
+
+      .chef-spatula {
+        left: 5px;
+        background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+        border-radius: 15px 15px 5px 5px;
+        transform: rotate(-15deg);
+      }
+
+      .chef-speech-bubble {
+        position: absolute;
+        top: -90px;
+        right: -20px;
+        background: linear-gradient(135deg, #ffffff, #f8f8f8);
+        border-radius: 20px;
+        padding: 18px;
+        max-width: 220px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        animation: speechBubbleAppear 0.6s
+          cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.5s;
+        z-index: 200;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      @keyframes speechBubbleAppear {
+        0% {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .chef-speech-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: 30px;
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(135deg, #f8f8f8, #ffffff);
+        transform: rotate(45deg);
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
+        z-index: -1;
+        border-right: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      #chef-speech {
+        margin: 0;
+        font-size: 1rem;
+        color: var(--dark-color);
+        line-height: 1.4;
+        position: relative;
+      }
+
+      /* Chef speech bubble typing animation */
+      .chef-speech-bubble .typing-dots {
+        display: flex;
+        gap: 5px;
+        margin-top: 5px;
+      }
+
+      .chef-speech-bubble .typing-dot {
+        width: 8px;
+        height: 8px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        opacity: 0.7;
+        animation: speechDotPulse 1.5s infinite;
+      }
+
+      .chef-speech-bubble .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+        background-color: var(--secondary-color);
+      }
+
+      .chef-speech-bubble .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+        background-color: var(--accent-color);
+      }
+
+      @keyframes speechDotPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1.5);
+          opacity: 1;
+        }
+      }
+
+      /* Chef thinking animation */
+      .chef-thinking {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin-bottom: 20px;
+      }
+
+      .chef-head-thinking {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+      }
+
+      .chef-hat-thinking {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 60px;
+        background-color: white;
+        border-radius: 50% 50% 0 0;
+        z-index: 2;
+      }
+
+      .chef-face-thinking {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70px;
+        height: 70px;
+        background-color: #ffe0bd;
+        border-radius: 50%;
+        z-index: 1;
+      }
+
+      .chef-eyes-thinking {
+        position: absolute;
+        top: 25px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .chef-eye-thinking {
+        width: 8px;
+        height: 8px;
+        background-color: #333;
+        border-radius: 50%;
+        position: relative;
+        animation: thinkingEyes 1.5s infinite;
+      }
+
+      .thought-bubbles {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      .thought-bubble {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        opacity: 0;
+        animation: thoughtBubble 3s infinite;
+      }
+
+      .bubble-1 {
+        width: 15px;
+        height: 15px;
+        top: 20px;
+        right: 60px;
+        animation-delay: 0s;
+      }
+
+      .bubble-2 {
+        width: 20px;
+        height: 20px;
+        top: 0;
+        right: 40px;
+        animation-delay: 0.3s;
+      }
+
+      .bubble-3 {
+        width: 25px;
+        height: 25px;
+        top: -20px;
+        right: 20px;
+        animation-delay: 0.6s;
+      }
+
+      .bubble-4 {
+        width: 40px;
+        height: 40px;
+        top: -50px;
+        right: -10px;
+        animation-delay: 0.9s;
+      }
+
+      .ingredients-flying {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+
+      .flying-ingredient {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        animation: flyingIngredient 2s infinite linear;
+      }
+
+      .tomato {
+        background-color: #ff6b6b;
+        top: 50px;
+        left: 20px;
+        animation-delay: 0s;
+      }
+
+      .carrot {
+        background-color: #ff9f43;
+        top: 80px;
+        left: 50px;
+        animation-delay: 0.5s;
+      }
+
+      .lettuce {
+        background-color: #1dd1a1;
+        top: 30px;
+        left: 80px;
+        animation-delay: 1s;
+      }
+
+      /* Chef animations */
+      @keyframes chefBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes blinkEyes {
+        0%,
+        48%,
+        52%,
+        100% {
+          transform: scaleY(1);
+        }
+        50% {
+          transform: scaleY(0.1);
+        }
+      }
+
+      @keyframes chefTalk {
+        0%,
+        100% {
+          height: 5px;
+          width: 20px;
+        }
+        50% {
+          height: 10px;
+          width: 30px;
+        }
+      }
+
+      @keyframes hatWobble {
+        0%,
+        100% {
+          transform: translateX(-50%) rotate(0deg);
+        }
+        25% {
+          transform: translateX(-50%) rotate(-5deg);
+        }
+        75% {
+          transform: translateX(-50%) rotate(5deg);
+        }
+      }
+
+      @keyframes leftArmWave {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(20deg);
+        }
+      }
+
+      @keyframes rightArmWave {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(-20deg);
+        }
+      }
+
+      @keyframes speechBubbleAppear {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes thinkingEyes {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0);
+        }
+        25% {
+          transform: translateY(-2px) rotate(-10deg);
+        }
+        75% {
+          transform: translateY(2px) rotate(10deg);
+        }
+      }
+
+      @keyframes thoughtBubble {
+        0% {
+          opacity: 0;
+          transform: scale(0);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0);
+        }
+      }
+
+      @keyframes flyingIngredient {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(20px, -30px) rotate(90deg);
+        }
+        50% {
+          transform: translate(40px, 0) rotate(180deg);
+        }
+        75% {
+          transform: translate(20px, 30px) rotate(270deg);
+        }
+        100% {
+          transform: translate(0, 0) rotate(360deg);
+        }
+      }
+
+      /* Food Particle System */
+      .food-particle-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .food-particle {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+        animation: particleFade 3s ease-out forwards;
+      }
+
+      @keyframes particleFade {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.2);
+        }
+        10% {
+          opacity: 0.8;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        90% {
+          opacity: 0.8;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.2);
+        }
+      }
+
+      /* 3D Flip animation for messages */
+      .message.user-message {
+        animation: flipInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+      }
+
+      .message.bot-message {
+        animation: flipInLeft 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+      }
+
+      @keyframes flipInRight {
+        0% {
+          transform: translateX(100px) rotateY(180deg);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0) rotateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes flipInLeft {
+        0% {
+          transform: translateX(-100px) rotateY(-180deg);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0) rotateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        #chat {
+          height: 450px;
+        }
+
+        .chef-character {
+          width: 120px;
+          height: 180px;
+          bottom: 10px;
+          right: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated background elements -->
+    <div class="animated-bg">
+      <div class="food-item" id="tomato">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/tomato-emoji.png"
+          alt="Tomato"
+        />
+      </div>
+      <div class="food-item" id="carrot">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/carrot-emoji.png"
+          alt="Carrot"
+        />
+      </div>
+      <div class="food-item" id="broccoli">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/broccoli-emoji.png"
+          alt="Broccoli"
+        />
+      </div>
+      <div class="food-item" id="pepper">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/hot-pepper-emoji.png"
+          alt="Pepper"
+        />
+      </div>
+      <div class="food-item" id="mushroom">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/mushroom-emoji.png"
+          alt="Mushroom"
+        />
+      </div>
+      <div class="food-item" id="avocado">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/avocado-emoji.png"
+          alt="Avocado"
+        />
+      </div>
+      <div class="food-item" id="lemon">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/lemon-emoji.png"
+          alt="Lemon"
+        />
+      </div>
+      <div class="food-item" id="pizza">
+        <img
+          src="https://img.icons8.com/emoji/48/000000/pizza-emoji.png"
+          alt="Pizza"
+        />
+      </div>
+
+      <!-- People silhouettes -->
+      <div class="people-silhouettes">
+        <div class="person person-1">
+          <svg viewBox="0 0 100 100" width="80" height="80">
+            <path
+              d="M50,10 C60,10 65,20 65,30 C65,40 60,45 50,45 C40,45 35,40 35,30 C35,20 40,10 50,10 Z"
+              fill="rgba(155, 89, 182, 0.2)"
+            ></path>
+            <path
+              d="M30,50 C30,50 40,45 50,45 C60,45 70,50 70,50 L70,90 L30,90 Z"
+              fill="rgba(155, 89, 182, 0.2)"
+            ></path>
+          </svg>
+        </div>
+        <div class="person person-2">
+          <svg viewBox="0 0 100 100" width="70" height="70">
+            <path
+              d="M50,10 C60,10 65,20 65,30 C65,40 60,45 50,45 C40,45 35,40 35,30 C35,20 40,10 50,10 Z"
+              fill="rgba(46, 204, 113, 0.2)"
+            ></path>
+            <path
+              d="M30,50 C30,50 40,45 50,45 C60,45 70,50 70,50 L70,90 L30,90 Z"
+              fill="rgba(46, 204, 113, 0.2)"
+            ></path>
+          </svg>
+        </div>
+        <div class="person person-3">
+          <svg viewBox="0 0 100 100" width="90" height="90">
+            <path
+              d="M50,10 C60,10 65,20 65,30 C65,40 60,45 50,45 C40,45 35,40 35,30 C35,20 40,10 50,10 Z"
+              fill="rgba(52, 152, 219, 0.2)"
+            ></path>
+            <path
+              d="M30,50 C30,50 40,45 50,45 C60,45 70,50 70,50 L70,90 L30,90 Z"
+              fill="rgba(52, 152, 219, 0.2)"
+            ></path>
+          </svg>
+        </div>
+        <div class="person person-4">
+          <svg viewBox="0 0 100 100" width="75" height="75">
+            <path
+              d="M50,10 C60,10 65,20 65,30 C65,40 60,45 50,45 C40,45 35,40 35,30 C35,20 40,10 50,10 Z"
+              fill="rgba(230, 126, 34, 0.2)"
+            ></path>
+            <path
+              d="M30,50 C30,50 40,45 50,45 C60,45 70,50 70,50 L70,90 L30,90 Z"
+              fill="rgba(230, 126, 34, 0.2)"
+            ></path>
+          </svg>
+        </div>
+        <div class="person person-5">
+          <svg viewBox="0 0 100 100" width="85" height="85">
+            <path
+              d="M50,10 C60,10 65,20 65,30 C65,40 60,45 50,45 C40,45 35,40 35,30 C35,20 40,10 50,10 Z"
+              fill="rgba(255, 107, 107, 0.2)"
+            ></path>
+            <path
+              d="M30,50 C30,50 40,45 50,45 C60,45 70,50 70,50 L70,90 L30,90 Z"
+              fill="rgba(255, 107, 107, 0.2)"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated bubbles background -->
+    <div class="bubbles">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+    </div>
+
+    <!-- Chef Character -->
+    <div class="chef-character" id="chef-character">
+      <div class="chef-body">
+        <div class="chef-head">
+          <div class="chef-face">
+            <div class="chef-eyes">
+              <div class="chef-eye left"></div>
+              <div class="chef-eye right"></div>
+            </div>
+            <div class="chef-nose"></div>
+            <div class="chef-mouth"></div>
+            <div class="chef-mustache"></div>
+          </div>
+          <div class="chef-hat">
+            <div class="hat-base"></div>
+            <div class="hat-top"></div>
+          </div>
+        </div>
+        <div class="chef-torso">
+          <div class="chef-scarf"></div>
+          <div class="chef-arm left">
+            <div class="chef-hand"></div>
+            <div class="chef-utensil chef-spatula"></div>
+          </div>
+          <div class="chef-arm right">
+            <div class="chef-hand"></div>
+            <div class="chef-utensil chef-spoon"></div>
+          </div>
+        </div>
+      </div>
+      <div class="chef-speech-bubble">
+        <p id="chef-speech">
+          Hello! I'm Chef Gemini. What would you like to cook today?
+        </p>
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading animation -->
+    <div class="loading-container" id="loading-animation">
+      <div class="chef-thinking">
+        <div class="chef-head-thinking">
+          <div class="chef-hat-thinking"></div>
+          <div class="chef-face-thinking">
+            <div class="chef-eyes-thinking">
+              <div class="chef-eye-thinking left"></div>
+              <div class="chef-eye-thinking right"></div>
+            </div>
+          </div>
+        </div>
+        <div class="thought-bubbles">
+          <div class="thought-bubble bubble-1"></div>
+          <div class="thought-bubble bubble-2"></div>
+          <div class="thought-bubble bubble-3"></div>
+          <div class="thought-bubble bubble-4"></div>
+        </div>
+        <div class="ingredients-flying">
+          <div class="flying-ingredient tomato"></div>
+          <div class="flying-ingredient carrot"></div>
+          <div class="flying-ingredient lettuce"></div>
+        </div>
+      </div>
+      <p>Chef Gemini is cooking up a response...</p>
+    </div>
+
+    <div class="container">
+      <header>
+        <h1>Epic Food <span>Assistant</span></h1>
+        <p>Your AI-powered recipe companion</p>
+        <div class="theme-switcher">
+          <button class="theme-btn" data-theme="default">🌞</button>
+          <button class="theme-btn" data-theme="dark">🌙</button>
+          <button class="theme-btn" data-theme="colorful">🌈</button>
+          <button class="theme-btn" data-theme="minimal">🧁</button>
+          <button class="theme-btn" id="settings-btn" title="API Settings">⚙️</button>
+        </div>
+      </header>
+
+      <div id="chat">
+        <div class="food-particle-container" id="food-particles"></div>
+      </div>
+
+      <!-- Feature cards moved under the chat box -->
+      <div class="feature-cards">
+        <div class="feature-card" id="recipe-finder">
+          <div class="feature-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>Recipe Finder</h3>
+          <p>Find recipes based on ingredients you have</p>
+        </div>
+
+        <div class="feature-card" id="cooking-guide">
+          <div class="feature-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3>Cooking Guide</h3>
+          <p>Step-by-step cooking instructions</p>
+        </div>
+
+        <div class="feature-card" id="nutrition-info">
+          <div class="feature-icon">
+            <i class="fas fa-heartbeat"></i>
+          </div>
+          <h3>Nutrition Info</h3>
+          <p>Get detailed nutritional information</p>
+        </div>
+
+        <div class="feature-card" id="dietary-filter">
+          <div class="feature-icon">
+            <i class="fas fa-filter"></i>
+          </div>
+          <h3>Dietary Filters</h3>
+          <p>Find recipes for specific dietary needs</p>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="userInput"
+            placeholder="Ask about any recipe, ingredient, or cooking technique..."
+          />
+          <button id="voiceButton" title="Voice Input">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div class="input-features">
+          <button id="saveButton" title="Save Conversation">
+            <i class="fas fa-save"></i> Save
+          </button>
+          <button id="clearButton" title="Clear Chat">
+            <i class="fas fa-trash"></i> Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Voice Input Indicator -->
+      <div class="voice-indicator" id="voiceIndicator">
+        <div class="voice-wave">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+        <p>Listening... <span id="voiceText"></span></p>
+      </div>
+
+      <!-- Saved Recipes Panel -->
+      <div class="saved-recipes-panel" id="savedRecipesPanel">
+        <div class="panel-header">
+          <h3><i class="fas fa-bookmark"></i> Saved Recipes</h3>
+          <button id="closeSavedPanel"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="saved-recipes-list" id="savedRecipesList">
+          <!-- Saved recipes will be added here -->
+          <div class="empty-state">
+            <i class="fas fa-book-open"></i>
+            <p>No saved recipes yet</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggestion-chips">
+        <button class="chip">🥗 Healthy recipes</button>
+        <button class="chip">🍲 What can I cook with chicken?</button>
+        <button class="chip">🍝 Quick pasta ideas</button>
+        <button class="chip">🥘 Vegetarian options</button>
+      </div>
+    </div>
+
+    <script>
+      // DOM elements
+      const chatDiv = document.getElementById("chat");
+      const userInput = document.getElementById("userInput");
+      const sendButton = document.getElementById("sendButton");
+      const voiceButton = document.getElementById("voiceButton");
+      const loadingAnimation = document.getElementById("loading-animation");
+      const suggestionChips = document.querySelectorAll(".chip");
+      const featureCards = document.querySelectorAll(".feature-card");
+      const chefCharacter = document.getElementById("chef-character");
+      const chefSpeech = document.getElementById("chef-speech");
+
+      // API configuration - Google Gemini API
+      // Security: Try to get API key from environment or prompt user
+      let GEMINI_API_KEY = "";
+      const GEMINI_MODEL = "gemini-2.0-flash";
+      
+      // Function to get API key securely
+      function getApiKey() {
+        // For deployment: Check if API key is embedded (build-time replacement)
+        const EMBEDDED_API_KEY = "AIzaSyAjSZbsnxWXPygeU1yho2q2dJF8U3pUG_A"; // Your actual API key
+        if (EMBEDDED_API_KEY && EMBEDDED_API_KEY !== "GEMINI_API_KEY_PLACEHOLDER") {
+          return EMBEDDED_API_KEY;
+        }
+        
+        // Try to get from localStorage (user previously entered)
+        const storedKey = localStorage.getItem('gemini_api_key');
+        if (storedKey) {
+          return storedKey;
+        }
+        
+        // Prompt user to enter API key
+        const userKey = prompt(
+          "🔑 API Key Required\n\n" +
+          "Please enter your Gemini API Key:\n\n" +
+          "📍 Get your free API key from:\n" +
+          "https://aistudio.google.com/app/apikey\n\n" +
+          "🔒 Your key will be stored securely in your browser for future use.\n" +
+          "⚠️ Never share your API key with others!"
+        );
+        
+        if (userKey && userKey.trim()) {
+          // Store in localStorage for future use
+          localStorage.setItem('gemini_api_key', userKey.trim());
+          return userKey.trim();
+        }
+        
+        return null;
+      }
+      
+      // Initialize API key
+      GEMINI_API_KEY = getApiKey();
+      
+      // Function to validate API key format
+      function isValidApiKey(key) {
+        return key && key.startsWith('AIzaSy') && key.length >= 35;
+      }
+      
+      // Function to reset API key (for settings)
+      function resetApiKey() {
+        localStorage.removeItem('gemini_api_key');
+        GEMINI_API_KEY = getApiKey();
+        if (GEMINI_API_KEY) {
+          alert('API Key updated successfully!');
+          location.reload();
+        }
+      }
+      
+      // Check if API key is valid on startup
+      if (!GEMINI_API_KEY || !isValidApiKey(GEMINI_API_KEY)) {
+        console.warn('Invalid or missing Gemini API key - user will be prompted when needed');
+        
+        // Show a friendly message in the chat
+        setTimeout(() => {
+          const welcomeMsg = document.querySelector('.bot-message');
+          if (welcomeMsg) {
+            const apiKeyNotice = document.createElement('div');
+            apiKeyNotice.style.cssText = `
+              background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+              border: 1px solid #ffc107;
+              border-radius: 10px;
+              padding: 15px;
+              margin: 10px 0;
+              font-size: 0.9rem;
+              color: #856404;
+            `;
+            apiKeyNotice.innerHTML = `
+              <strong>🔑 API Key Setup</strong><br>
+              You'll be asked for your Gemini API key when you send your first message.<br>
+              <small>Get your free key from: <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a></small>
+            `;
+            welcomeMsg.appendChild(apiKeyNotice);
+          }
+        }, 1000);
+      } else {
+        console.log('✅ Gemini API key loaded successfully');
+      }
+
+      // Chat history for context
+      let chatHistory = [];
+      
+      // Message cache for faster responses
+      const messageCache = new Map();
+      
+      // Controller for aborting API requests
+      let controller = null;
+
+      // Initialize with welcome messag
+      setTimeout(() => {
+        addBotMessage(createWelcomeMessage());
+        animateChips();
+      }, 500);
+
+      // Speech Recognition Setup
+      let recognition = null;
+      let isRecognizing = false;
+
+      // Initialize speech recognition if supported by the browser
+      function initSpeechRecognition() {
+        if ("webkitSpeechRecognition" in window) {
+          recognition = new webkitSpeechRecognition();
+          setupRecognition();
+          return true;
+        } else if ("SpeechRecognition" in window) {
+          recognition = new SpeechRecognition();
+          setupRecognition();
+          return true;
+        } else {
+          console.log("Speech recognition not supported in this browser");
+          return false;
+        }
+      }
+
+      // Configure speech recognition settings
+      function setupRecognition() {
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
+
+        // Event handlers for speech recognition
+        recognition.onstart = function () {
+          isRecognizing = true;
+          voiceButton.classList.add("recording");
+          userInput.placeholder = "Listening...";
+          console.log("Speech recognition started");
+        };
+
+        recognition.onresult = function (event) {
+          let interimTranscript = "";
+          let finalTranscript = "";
+
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscript += transcript;
+            } else {
+              interimTranscript += transcript;
+            }
+          }
+
+          // Update input field with recognized speech
+          if (finalTranscript !== "") {
+            userInput.value = finalTranscript;
+          } else {
+            userInput.value = interimTranscript;
+          }
+        };
+
+        recognition.onerror = function (event) {
+          console.error("Speech recognition error", event.error);
+          stopRecognition();
+        };
+
+        recognition.onend = function () {
+          stopRecognition();
+          // If we have text, send the message
+          if (userInput.value.trim() !== "") {
+            setTimeout(() => {
+              handleUserMessage();
+            }, 500);
+          }
+        };
+      }
+
+      // Start speech recognition
+      function startRecognition() {
+        if (!recognition && !initSpeechRecognition()) {
+          alert(
+            "Speech recognition is not supported in your browser. Please try Chrome or Edge."
+          );
+          return;
+        }
+
+        try {
+          recognition.start();
+        } catch (error) {
+          console.error("Error starting speech recognition:", error);
+          stopRecognition();
+        }
+      }
+
+      // Stop speech recognition
+      function stopRecognition() {
+        if (recognition) {
+          try {
+            recognition.stop();
+          } catch (error) {
+            console.error("Error stopping speech recognition:", error);
+          }
+        }
+
+        isRecognizing = false;
+        voiceButton.classList.remove("recording");
+        userInput.placeholder =
+          "Ask about any recipe, ingredient, or cooking technique...";
+      }
+      
+      // Function to abort ongoing API request
+      function abortRequest() {
+        if (controller) {
+          controller.abort();
+          removeTypingIndicator();
+          hideLoading();
+        }
+      }
+
+      // Text-to-Speech Setup
+      let isSpeaking = false;
+      let currentSpeakButton = null;
+
+      function speakText(text, button = null) {
+        if ("speechSynthesis" in window) {
+          // Stop any ongoing speech
+          window.speechSynthesis.cancel();
+
+          // Reset previous button if exists
+          if (currentSpeakButton) {
+            currentSpeakButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+            currentSpeakButton.classList.remove("speaking");
+          }
+
+          // Set current button
+          currentSpeakButton = button;
+
+          // Update button state if provided
+          if (button) {
+            button.innerHTML = '<i class="fas fa-pause"></i>';
+            button.classList.add("speaking");
+          }
+
+          const utterance = new SpeechSynthesisUtterance(text);
+
+          // Get available voices
+          let voices = window.speechSynthesis.getVoices();
+
+          // If voices aren't loaded yet, wait for them
+          if (voices.length === 0) {
+            window.speechSynthesis.addEventListener("voiceschanged", () => {
+              voices = window.speechSynthesis.getVoices();
+              setVoice();
+            });
+          } else {
+            setVoice();
+          }
+
+          // Set a pleasant voice
+          function setVoice() {
+            // Try to find a female voice
+            const femaleVoice = voices.find(
+              (voice) =>
+                voice.name.includes("female") ||
+                voice.name.includes("Samantha") ||
+                voice.name.includes("Google UK English Female") ||
+                voice.name.includes("Microsoft Zira")
+            );
+
+            if (femaleVoice) {
+              utterance.voice = femaleVoice;
+            }
+          }
+
+          // Set speech properties
+          utterance.rate = 1.0;
+          utterance.pitch = 1.0;
+          utterance.volume = 1.0;
+
+          // Speech events
+          utterance.onstart = function () {
+            isSpeaking = true;
+          };
+
+          utterance.onend = function () {
+            isSpeaking = false;
+            if (currentSpeakButton) {
+              currentSpeakButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+              currentSpeakButton.classList.remove("speaking");
+              currentSpeakButton = null;
+            }
+          };
+
+          utterance.onerror = function () {
+            isSpeaking = false;
+            if (currentSpeakButton) {
+              currentSpeakButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+              currentSpeakButton.classList.remove("speaking");
+              currentSpeakButton = null;
+            }
+          };
+
+          // Speak the text
+          window.speechSynthesis.speak(utterance);
+        } else {
+          console.log("Text-to-speech not supported in this browser");
+        }
+      }
+
+      // Function to stop speaking
+      function stopSpeaking() {
+        if ("speechSynthesis" in window) {
+          window.speechSynthesis.cancel();
+          isSpeaking = false;
+
+          if (currentSpeakButton) {
+            currentSpeakButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+            currentSpeakButton.classList.remove("speaking");
+            currentSpeakButton = null;
+          }
+        }
+      }
+
+      // Event listeners
+      sendButton.addEventListener("click", handleUserMessage);
+      userInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          handleUserMessage();
+        }
+      });
+      
+      // Settings button event listener
+      document.getElementById("settings-btn").addEventListener("click", function() {
+        const currentKey = localStorage.getItem('gemini_api_key');
+        const message = currentKey ? 
+          `Current API key: ${currentKey.substring(0, 10)}...\n\nEnter new API key (or cancel to keep current):` :
+          `No API key found.\n\nEnter your Gemini API key:`;
+          
+        const newKey = prompt(message);
+        if (newKey && newKey.trim() && newKey !== currentKey) {
+          if (isValidApiKey(newKey.trim())) {
+            localStorage.setItem('gemini_api_key', newKey.trim());
+            GEMINI_API_KEY = newKey.trim();
+            alert('API key updated successfully!');
+          } else {
+            alert('Invalid API key format. Please enter a valid Gemini API key.');
+          }
+        }
+      });
+
+      // Stop voice recognition when user starts typing manually
+      userInput.addEventListener("input", function () {
+        if (isRecognizing) {
+          stopRecognition();
+        }
+      });
+
+      // Voice button event listener
+      voiceButton.addEventListener("click", function () {
+        if (isRecognizing) {
+          stopRecognition();
+        } else {
+          startRecognition();
+        }
+      });
+
+      // Stop speaking when starting voice recognition
+      document.addEventListener("keydown", function (e) {
+        // Stop speech when pressing Escape key
+        if (e.key === "Escape" && isSpeaking) {
+          stopSpeaking();
+        }
+      });
+
+      // Add event listeners to suggestion chips
+      suggestionChips.forEach((chip, index) => {
+        // Add delay to each chip animation
+        chip.style.animationDelay = `${index * 0.1 + 0.5}s`;
+
+        chip.addEventListener("click", () => {
+          userInput.value = chip.textContent;
+          handleUserMessage();
+        });
+      });
+
+      // Add event listeners to feature cards
+      featureCards.forEach((card, index) => {
+        // Add delay to each card animation
+        card.style.animationDelay = `${index * 0.1 + 0.7}s`;
+
+        card.addEventListener("click", () => {
+          let query = "";
+
+          switch (card.id) {
+            case "recipe-finder":
+              query =
+                "I want to cook something with the ingredients I have: chicken, pasta, tomatoes, and garlic. What can I make?";
+              break;
+            case "cooking-guide":
+              query =
+                "Give me step-by-step instructions for making a classic margherita pizza.";
+              break;
+            case "nutrition-info":
+              query =
+                "What's the nutritional information for a typical serving of spaghetti bolognese?";
+              break;
+            case "dietary-filter":
+              query =
+                "Can you suggest some gluten-free and vegetarian dinner recipes?";
+              break;
+            default:
+              query = "Give me a random recipe idea.";
+          }
+
+          userInput.value = query;
+          handleUserMessage();
+        });
+      });
+
+      // Handle user message
+      function handleUserMessage() {
+        const message = userInput.value.trim();
+        if (message === "") return;
+
+        // Check cache first
+        const cacheKey = message.toLowerCase();
+        if (messageCache.has(cacheKey)) {
+          const cachedResponse = messageCache.get(cacheKey);
+          addUserMessage(message);
+          userInput.value = "";
+          
+          // Add bot message with formatted response
+          addBotMessage(cachedResponse);
+          
+          // Update chef speech with a reaction to the response
+          updateChefSpeech(cachedResponse);
+         return;
+        }
+
+        // Add user message to chat
+        addUserMessage(message);
+        userInput.value = "";
+
+         // Show typing indicator
+        showTypingIndicator();
+
+        // Show loading animation
+        showLoading();
+
+        // Store message for chat history
+        chatHistory.push({ 
+          role: "user", 
+          content: message 
+        });
+
+        // Get streaming response from OpenRouter API
+        getOpenRouterResponse(message);
+      }
+
+      // Function to get response from OpenRouter API with streaming
+      async function getOpenRouterResponse(message) {
+        try {
+          // Create the system prompt for food assistant context
+          const systemPrompt = `You are Chef AI, an AI-powered food and recipe assistant. 
+          Your expertise includes:
+          1. Recipe recommendations based on ingredients
+          2. Step-by-step cooking instructions
+          3. Nutritional information about recipes
+          4. Dietary restriction filtering (vegetarian, vegan, gluten-free, etc.)
+          
+          Always be helpful, friendly, and enthusiastic about food. If you don't know something, admit it rather than making up information.
+          Format your responses in a clean, readable way. Use emoji occasionally to add personality.`;
+
+          // Prepare conversation context for Gemini
+          let conversationContext = systemPrompt + "\n\n";
+          
+          // Add recent chat history for context (limit to last 5 exchanges)
+          const recentHistory = chatHistory.slice(-10);
+          for (const msg of recentHistory) {
+            if (msg.role === "user") {
+              conversationContext += `User: ${msg.content}\n`;
+            } else if (msg.role === "assistant") {
+              conversationContext += `Assistant: ${msg.content}\n`;
+            }
+          }
+          
+          // Add current user message
+          conversationContext += `User: ${message}\nAssistant: `;
+
+          // Setup for controller to allow aborting
+          controller = new AbortController();
+
+          // Remove typing indicator
+          removeTypingIndicator();
+
+          // Create initial bot message container for streaming
+          const streamingElement = document.createElement("div");
+          streamingElement.classList.add("message", "bot-message");
+          
+          const messageText = document.createElement("div");
+          messageText.classList.add("message-text");
+          messageText.innerHTML = ""; // Will be populated during streaming
+          
+          const messageTime = document.createElement("div");
+          messageTime.classList.add("message-time");
+          messageTime.textContent = getCurrentTime();
+          
+          // Add a stop button for streaming
+          const stopButton = document.createElement("button");
+          stopButton.classList.add("stop-button");
+          stopButton.innerHTML = '<i class="fas fa-stop"></i>';
+          stopButton.title = "Stop generating";
+          stopButton.addEventListener("click", abortRequest);
+          
+          // Add a speak button (can reuse existing implementation)
+          const speakButton = document.createElement("button");
+          speakButton.classList.add("speak-button");
+          speakButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+          speakButton.title = "Listen to this response";
+          speakButton.style.opacity = "0"; // Hide initially, show when complete
+          
+          streamingElement.appendChild(messageText);
+          streamingElement.appendChild(messageTime);
+          streamingElement.appendChild(stopButton);
+          streamingElement.appendChild(speakButton);
+          
+          chatDiv.appendChild(streamingElement);
+          scrollToBottom();
+
+          // Validate API key before making request
+          if (!GEMINI_API_KEY || !isValidApiKey(GEMINI_API_KEY)) {
+            throw new Error('Invalid or missing Gemini API key. Please check your API key configuration.');
+          }
+
+          // Make API request to Gemini
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              contents: [
+                {
+                  parts: [
+                    {
+                      text: conversationContext
+                    }
+                  ]
+                }
+              ],
+              generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 1000
+              }
+            }),
+            signal: controller.signal
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            let errorMessage = `API request failed: ${response.status}`;
+            
+            if (response.status === 400) {
+              errorMessage = 'Invalid API key or request format. Please check your Gemini API key.';
+            } else if (response.status === 403) {
+              errorMessage = 'API key access denied. Please verify your Gemini API key permissions.';
+            } else if (response.status === 429) {
+              errorMessage = 'API rate limit exceeded. Please try again in a moment.';
+            }
+            
+            throw new Error(errorMessage);
+          }
+
+          // Process the Gemini response
+          const data = await response.json();
+          let fullResponse = "";
+          
+          if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
+            fullResponse = data.candidates[0].content.parts[0].text;
+            
+            // Simulate typing effect for better UX
+            let currentText = "";
+            const words = fullResponse.split(' ');
+            
+            for (let i = 0; i < words.length; i++) {
+              currentText += (i > 0 ? ' ' : '') + words[i];
+              messageText.innerHTML = formatMessage(currentText);
+              scrollToBottom();
+              
+              // Update chef reaction periodically
+              if (i % 10 === 0) {
+                updateChefSpeech(currentText);
+              }
+              
+              // Add small delay for typing effect
+              await new Promise(resolve => setTimeout(resolve, 50));
+            }
+          } else {
+            throw new Error('Invalid response format from Gemini API');
+          }
+
+          // Streaming complete - finalize message
+          hideLoading();
+          
+          // Update the final response in chat history
+          chatHistory.push({ 
+            role: "assistant", 
+            content: fullResponse 
+          });
+          
+          // Cache the response for future use
+          messageCache.set(message.toLowerCase(), fullResponse);
+          
+          // Update UI elements
+          stopButton.remove();
+          speakButton.style.opacity = ""; // Show speak button
+          speakButton.addEventListener("click", function() {
+            // Get plain text from the HTML message
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = fullResponse;
+            const plainText = tempDiv.textContent || tempDiv.innerText || "";
+
+            // If already speaking, stop it
+            if (isSpeaking && currentSpeakButton === this) {
+              stopSpeaking();
+            } else {
+              // Speak the message
+              speakText(plainText, this);
+            }
+          });
+          
+          // Final chef reaction
+          updateChefSpeech(fullResponse);
+          
+        } catch (error) {
+          if (error.name === 'AbortError') {
+            console.log('Request was aborted');
+          } else {
+            console.error("Error calling OpenRouter API:", error);
+            
+            // Remove typing indicator and hide loading
+            removeTypingIndicator();
+            hideLoading();
+            
+            // Show error message
+            addBotMessage("Sorry, I encountered an error. Please try again later.");
+          }
+        } finally {
+          controller = null;
+        }
+      }
+
+      // Add user message to chat
+      function addUserMessage(message) {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message", "user-message");
+
+        const messageText = document.createElement("div");
+        messageText.classList.add("message-text");
+        messageText.textContent = message;
+
+        const messageTime = document.createElement("div");
+        messageTime.classList.add("message-time");
+        messageTime.textContent = getCurrentTime();
+
+        messageElement.appendChild(messageText);
+        messageElement.appendChild(messageTime);
+
+        chatDiv.appendChild(messageElement);
+        scrollToBottom();
+
+        // Add entrance animation
+        messageElement.style.opacity = "0";
+        messageElement.style.transform = "translateY(10px)";
+
+        setTimeout(() => {
+          messageElement.style.transition =
+            "opacity 0.3s ease, transform 0.3s ease";
+          messageElement.style.opacity = "1";
+          messageElement.style.transform = "translateY(0)";
+        }, 10);
+      }
+
+      // Show typing indicator
+      function showTypingIndicator() {
+        // Add typing indicator in chat
+        const typingIndicator = document.createElement("div");
+        typingIndicator.classList.add(
+          "message",
+          "bot-message",
+          "typing-indicator"
+        );
+        typingIndicator.id = "typing-indicator";
+
+        for (let i = 0; i < 3; i++) {
+          const dot = document.createElement("div");
+          dot.classList.add("typing-dot");
+          typingIndicator.appendChild(dot);
+        }
+
+        chatDiv.appendChild(typingIndicator);
+        scrollToBottom();
+
+        // Show typing dots in chef speech bubble
+        const speechBubble = document.querySelector(".chef-speech-bubble");
+        const chefSpeechText = document.getElementById("chef-speech");
+        const typingDots = document.querySelector(
+          ".chef-speech-bubble .typing-dots"
+        );
+
+        chefSpeechText.textContent = "Hmm, let me think about that...";
+        typingDots.style.display = "flex";
+      }
+
+      // Remove typing indicator
+      function removeTypingIndicator() {
+        const typingIndicator = document.getElementById("typing-indicator");
+        if (typingIndicator) {
+          typingIndicator.remove();
+        }
+
+        // Hide typing dots in chef speech bubble
+        const typingDots = document.querySelector(
+          ".chef-speech-bubble .typing-dots"
+        );
+        if (typingDots) {
+          typingDots.style.display = "none";
+        }
+      }
+
+      // Add bot message to chat
+      function addBotMessage(message) {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message", "bot-message");
+
+        const messageText = document.createElement("div");
+        messageText.classList.add("message-text");
+
+        // Format the message with markdown-like syntax
+        messageText.innerHTML = formatMessage(message);
+
+        const messageTime = document.createElement("div");
+        messageTime.classList.add("message-time");
+        messageTime.textContent = getCurrentTime();
+
+        // Add a speak button to the message
+        const speakButton = document.createElement("button");
+        speakButton.classList.add("speak-button");
+        speakButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+        speakButton.title = "Listen to this response";
+        speakButton.addEventListener("click", function () {
+          // Get plain text from the HTML message
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = message;
+          const plainText = tempDiv.textContent || tempDiv.innerText || "";
+
+          // If already speaking, stop it
+          if (isSpeaking && currentSpeakButton === this) {
+            stopSpeaking();
+          } else {
+            // Speak the message
+            speakText(plainText, this);
+          }
+        });
+
+        messageElement.appendChild(messageText);
+        messageElement.appendChild(messageTime);
+        messageElement.appendChild(speakButton);
+
+        chatDiv.appendChild(messageElement);
+        scrollToBottom();
+
+        // Automatically speak the response if it's not the welcome message
+        if (!message.includes("Welcome to Epic Food Assistant")) {
+          // Get plain text from the HTML message
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = message;
+          const plainText = tempDiv.textContent || tempDiv.innerText || "";
+
+          // Speak the message with a slight delay to ensure UI is updated first
+          setTimeout(() => {
+            speakText(plainText, speakButton);
+          }, 500);
+        }
+
+        // Add entrance animation
+        messageElement.style.opacity = "0";
+        messageElement.style.transform = "translateY(10px)";
+
+        setTimeout(() => {
+          messageElement.style.transition =
+            "opacity 0.3s ease, transform 0.3s ease";
+          messageElement.style.opacity = "1";
+          messageElement.style.transform = "translateY(0)";
+        }, 10);
+      }
+
+      // Format message with markdown-like syntax
+      function formatMessage(message) {
+        // Check if message contains a recipe
+        if (message.includes("## Recipe:") || message.includes("# Recipe")) {
+          return createRecipeCard(message);
+        }
+
+        // Basic formatting
+        return message
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Bold
+          .replace(/\*(.*?)\*/g, "<em>$1</em>") // Italic
+          .replace(/## (.*?)(?:\n|$)/g, "<h3>$1</h3>") // H3
+          .replace(/# (.*?)(?:\n|$)/g, "<h2>$1</h2>") // H2
+          .replace(/^\d+\.\s+(.*?)(?:\n|$)/gm, "<li>$1</li>") // Numbered list
+          .replace(/^-\s+(.*?)(?:\n|$)/gm, "<li>$1</li>") // Bullet list
+          .replace(/\n/g, "<br>"); // Line breaks
+      }
+
+      // Create welcome message
+      function createWelcomeMessage() {
+        return `👨‍🍳 **Welcome to Epic Food Assistant!** 
+
+I\'m Chef Gemini, your AI cooking companion. I can help you with:
+
+- 🍲 Recipe recommendations based on ingredients you have
+- 📝 Step-by-step cooking instructions
+- 🥗 Nutritional information about recipes
+- 🌱 Dietary restriction filtering (vegetarian, vegan, gluten-free, etc.)
+
+Try asking me something like:
+"What can I make with chicken and broccoli?"
+"How do I make chocolate chip cookies from scratch?"
+"What are some healthy vegetarian dinner ideas?"
+
+What would you like to cook today?`;
+      }
+
+      // Create recipe card
+      function createRecipeCard(message) {
+        // Extract recipe title
+        const titleMatch =
+          message.match(/# (.*?)(?:\n|$)/) ||
+          message.match(/## Recipe: (.*?)(?:\n|$)/);
+        const title = titleMatch ? titleMatch[1] : "Delicious Recipe";
+
+        // Generate a random food image URL
+        const imageUrl = `https://source.unsplash.com/random/300x200/?food,${title.replace(
+          /\s+/g,
+          ","
+        )}`;
+
+        // Extract cooking time if available
+        const timeMatch = message.match(/Cooking Time:?\s*([^\n]+)/i);
+        const cookingTime = timeMatch ? timeMatch[1] : "30 mins";
+
+        // Extract difficulty if available
+        const difficultyMatch = message.match(/Difficulty:?\s*([^\n]+)/i);
+        const difficulty = difficultyMatch ? difficultyMatch[1] : "Medium";
+
+        // Extract ingredients if available
+        let ingredients = "";
+        if (message.includes("Ingredients:")) {
+          const ingredientsSection = message
+            .split("Ingredients:")[1]
+            .split(/Instructions:|Directions:|Method:|Steps:/)[0];
+          ingredients = ingredientsSection
+            .split("\n")
+            .filter(
+              (line) =>
+                line.trim().startsWith("-") || line.trim().match(/^\d+\./)
+            )
+            .map((line) =>
+              line
+                .trim()
+                .replace(/^-\s+/, "")
+                .replace(/^\d+\.\s+/, "")
+            )
+            .join(", ");
+        }
+
+        // Determine recipe tags
+        const tags = [];
+        if (message.toLowerCase().includes("vegetarian"))
+          tags.push("Vegetarian");
+        if (message.toLowerCase().includes("vegan")) tags.push("Vegan");
+        if (message.toLowerCase().includes("gluten-free"))
+          tags.push("Gluten-Free");
+        if (message.toLowerCase().includes("dairy-free"))
+          tags.push("Dairy-Free");
+        if (message.toLowerCase().includes("low-carb")) tags.push("Low-Carb");
+        if (tags.length === 0) tags.push("Recipe");
+
+        // Create recipe card HTML
+        const recipeCard = `
+          <div class="recipe-card" style="border: 1px solid #eee; border-radius: 10px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); animation: fadeIn 0.5s ease-out;">
+            <div class="recipe-image" style="height: 150px; overflow: hidden;">
+              <img src="${imageUrl}" alt="${title}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="recipe-content" style="padding: 15px;">
+              <h3 class="recipe-title" style="margin-top: 0; color: var(--primary-color);">${title}</h3>
+              <div class="recipe-info" style="display: flex; gap: 15px; margin: 10px 0; font-size: 0.9rem; color: #666;">
+                <span><i class="fas fa-clock"></i> ${cookingTime}</span>
+                <span><i class="fas fa-signal"></i> ${difficulty}</span>
+              </div>
+              <p style="margin: 10px 0; font-size: 0.9rem;">${
+                ingredients.length > 100
+                  ? ingredients.substring(0, 100) + "..."
+                  : ingredients
+              }</p>
+              <div class="recipe-tags" style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;">
+                ${tags
+                  .map(
+                    (tag) =>
+                      `<span class="recipe-tag" style="background: var(--gradient); color: white; padding: 3px 8px; border-radius: 10px; font-size: 0.8rem;">${tag}</span>`
+                  )
+                  .join("")}
+              </div>
+            </div>
+          </div>
+          <div>${message
+            .replace(/# (.*?)(?:\n|$)/, "")
+            .replace(/## Recipe: (.*?)(?:\n|$)/, "")}</div>
+        `;
+
+        return recipeCard;
+      }
+
+      // Get current time in HH:MM format
+      function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      // Scroll chat to bottom
+      function scrollToBottom() {
+        chatDiv.scrollTop = chatDiv.scrollHeight;
+      }
+
+      // Show loading animation
+      function showLoading() {
+        loadingAnimation.classList.add("active");
+      }
+
+      // Hide loading animation
+      function hideLoading() {
+        loadingAnimation.classList.remove("active");
+      }
+
+      // Animate suggestion chips with delay
+      function animateChips() {
+        suggestionChips.forEach((chip, index) => {
+          setTimeout(() => {
+            chip.style.animationDelay = "0s";
+          }, index * 100 + 500);
+        });
+      }
+
+      // Animate background elements
+      function animateBackgroundElements() {
+        const foodItems = document.querySelectorAll(".food-item");
+        foodItems.forEach((item, index) => {
+          const randomX = Math.random() * 90;
+          const randomY = Math.random() * 80;
+          item.style.left = `${randomX}%`;
+          item.style.top = `${randomY}%`;
+        });
+      }
+
+      // Initialize background animations
+      animateBackgroundElements();
+
+      // Add hover effects to interactive elements
+      document
+        .querySelectorAll(".chip, button:not(#sendButton), .feature-card")
+        .forEach((element) => {
+          element.addEventListener("mouseenter", () => {
+            if (element.classList.contains("chip")) {
+              element.style.transform = "translateY(-3px)";
+            } else if (element.classList.contains("feature-card")) {
+              element.style.transform = "translateY(-10px)";
+            } else if (element.id === "sendButton") {
+              element.style.transform = "translateY(-50%) scale(1.1)";
+            }
+          });
+
+          element.addEventListener("mouseleave", () => {
+            if (element.classList.contains("chip")) {
+              element.style.transform = "translateY(0)";
+            } else if (element.classList.contains("feature-card")) {
+              element.style.transform = "translateY(0)";
+            } else if (element.id === "sendButton") {
+              element.style.transform = "translateY(-50%)";
+            }
+          });
+        });
+
+      // Add pulse animation to the title
+      const title = document.querySelector("h1");
+      setInterval(() => {
+        title.style.animation = "pulse 1s ease-in-out";
+        setTimeout(() => {
+          title.style.animation = "";
+        }, 1000);
+      }, 5000);
+
+      // Chef character interactions
+      const chefPhrases = [
+        "Need any cooking tips?",
+        "What ingredients do you have?",
+        "Looking for a specific recipe?",
+        "Hungry? Let me suggest something!",
+        "I know over 10,000 recipes!",
+        "Ask me about any cuisine!",
+        "Need help with meal planning?",
+        "What's your favorite food?",
+        "Let's cook something delicious!",
+        "I can help with dietary restrictions too!",
+      ];
+
+      // Randomly change chef speech bubble
+      function updateChefSpeech() {
+        const randomPhrase =
+          chefPhrases[Math.floor(Math.random() * chefPhrases.length)];
+        chefSpeech.textContent = randomPhrase;
+
+        // Add animation to speech bubble
+        chefSpeech.style.animation = "pulse 0.5s ease-in-out";
+        setTimeout(() => {
+          chefSpeech.style.animation = "";
+        }, 500);
+      }
+
+      // Update chef speech periodically
+      setInterval(updateChefSpeech, 8000);
+
+      // Make chef react to user input
+      userInput.addEventListener("focus", () => {
+        chefSpeech.textContent = "I'm listening...";
+        chefCharacter.style.animation = "chefBounce 1s infinite ease-in-out";
+      });
+
+      userInput.addEventListener("blur", () => {
+        chefCharacter.style.animation = "chefBounce 3s infinite ease-in-out";
+        updateChefSpeech();
+      });
+
+      // Make chef react to messages
+      function chefReactToMessage(message) {
+        // Different reactions based on message content
+        if (message.toLowerCase().includes("thank")) {
+          chefSpeech.textContent = "You're welcome! Happy cooking!";
+        } else if (message.toLowerCase().includes("help")) {
+          chefSpeech.textContent =
+            "I'm here to help with all your cooking needs!";
+        } else if (message.toLowerCase().includes("recipe")) {
+          chefSpeech.textContent = "I love sharing recipes!";
+        } else if (message.toLowerCase().includes("ingredient")) {
+          chefSpeech.textContent =
+            "Ingredients are the building blocks of great food!";
+        } else {
+          chefSpeech.textContent = "Let me think about that...";
+        }
+      }
+
+      // Update chef speech based on AI response
+      function updateChefSpeech(response) {
+        // Extract a short reaction from the response
+        let reaction = "";
+
+        if (response.toLowerCase().includes("recipe")) {
+          reaction = "I hope you enjoy this recipe!";
+        } else if (response.toLowerCase().includes("ingredient")) {
+          reaction = "These ingredients will make a delicious dish!";
+        } else if (
+          response.toLowerCase().includes("healthy") ||
+          response.toLowerCase().includes("nutrition")
+        ) {
+          reaction = "Healthy eating is so important!";
+        } else if (
+          response.toLowerCase().includes("dessert") ||
+          response.toLowerCase().includes("sweet")
+        ) {
+          reaction = "Desserts are my specialty! 🍰";
+        } else if (response.toLowerCase().includes("spicy")) {
+          reaction = "Spicy food adds such great flavor! 🌶️";
+        } else if (
+          response.toLowerCase().includes("vegetarian") ||
+          response.toLowerCase().includes("vegan")
+        ) {
+          reaction = "Plant-based cooking is amazing!";
+        } else if (
+          response.toLowerCase().includes("sorry") ||
+          response.toLowerCase().includes("don't know")
+        ) {
+          reaction = "I wish I knew more about that!";
+        } else {
+          reaction = "I hope that helps with your cooking!";
+        }
+
+        chefSpeech.textContent = reaction;
+      }
+
+      // Update the handleUserMessage function to make chef react
+      const originalHandleUserMessage = handleUserMessage;
+      handleUserMessage = function () {
+        const message = userInput.value.trim();
+        if (message === "") return;
+
+        // Make chef react to the message
+        chefReactToMessage(message);
+
+        // Call the original function
+        originalHandleUserMessage();
+      };
+
+      // Add 3D transform effect to chat container on scroll
+      chatDiv.addEventListener("scroll", () => {
+        const scrollPercentage =
+          chatDiv.scrollTop / (chatDiv.scrollHeight - chatDiv.clientHeight);
+        const rotateX = 5 - scrollPercentage * 10; // Rotate from 5 to -5 degrees
+
+        chatDiv.style.transform = `perspective(1000px) rotateX(${rotateX}deg)`;
+      });
+
+      // Reset transform when not scrolling
+      chatDiv.addEventListener("scrollend", () => {
+        setTimeout(() => {
+          chatDiv.style.transition = "transform 0.5s ease";
+          chatDiv.style.transform = "perspective(1000px) rotateX(0deg)";
+        }, 500);
+      });
+
+      // Add confetti effect when a recipe is shared
+      function showConfetti() {
+        const confettiContainer = document.createElement("div");
+        confettiContainer.className = "confetti-container";
+        document.body.appendChild(confettiContainer);
+
+        for (let i = 0; i < 100; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.animationDelay = Math.random() * 3 + "s";
+          confetti.style.backgroundColor = `hsl(${
+            Math.random() * 360
+          }, 100%, 50%)`;
+          confettiContainer.appendChild(confetti);
+        }
+
+        setTimeout(() => {
+          confettiContainer.remove();
+        }, 5000);
+      }
+
+      // Add confetti CSS
+      const confettiStyle = document.createElement("style");
+      confettiStyle.textContent = `
+        .confetti-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 1000;
+        }
+        
+        .confetti {
+          position: absolute;
+          top: -10px;
+          width: 10px;
+          height: 10px;
+          background-color: var(--primary-color);
+          opacity: 0.7;
+          animation: confetti-fall 5s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 0.7;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(confettiStyle);
+
+      // Modify addBotMessage to show confetti for recipes
+      const originalAddBotMessage = addBotMessage;
+      addBotMessage = function (message) {
+        // Call the original function
+        originalAddBotMessage(message);
+
+        // Show confetti if it's a recipe
+        if (message.includes("## Recipe:") || message.includes("# Recipe")) {
+          showConfetti();
+          chefSpeech.textContent = "Voilà! A delicious recipe for you!";
+        }
+      };
+
+      // Food Particle System
+      const foodParticleContainer = document.getElementById("food-particles");
+      const foodEmojis = [
+        "🍕",
+        "🍔",
+        "🍟",
+        "🌭",
+        "🍿",
+        "🧂",
+        "🥓",
+        "🥚",
+        "🍳",
+        "🧇",
+        "🥞",
+        "🧈",
+        "🍞",
+        "🥐",
+        "🥨",
+        "🥯",
+        "🥖",
+        "🧀",
+        "🥗",
+        "🥙",
+        "🥪",
+        "🌮",
+        "🌯",
+        "🥫",
+        "🍖",
+        "🍗",
+        "🥩",
+        "🍠",
+        "🥟",
+        "🥠",
+        "🥡",
+        "🍱",
+        "🍘",
+        "🍙",
+        "🍚",
+        "🍛",
+        "🍜",
+        "🦪",
+        "🍣",
+        "🍤",
+        "🍥",
+        "🥮",
+        "🍢",
+        "🧆",
+        "🥘",
+        "🍲",
+        "🥣",
+        "🥧",
+        "🍦",
+        "🍧",
+        "🍨",
+        "🍩",
+        "🍪",
+        "🎂",
+        "🍰",
+        "🧁",
+        "🍫",
+        "🍬",
+        "🍭",
+        "🍮",
+        "🍯",
+        "🍡",
+        "🥤",
+        "🧃",
+        "🧉",
+        "🧊",
+        "🍷",
+        "🍸",
+        "🍹",
+        "🍺",
+        "🍻",
+        "🥂",
+        "🥃",
+        "🥤",
+        "☕",
+        "🍵",
+        "🍶",
+        "🥛",
+        "🍼",
+        "🍴",
+        "🥄",
+        "🔪",
+        "🍽️",
+        "🥢",
+        "🧄",
+        "🧅",
+        "🥔",
+        "🥕",
+        "🌽",
+        "🌶️",
+        "🥒",
+        "🥬",
+        "🥦",
+        "🧄",
+        "🧅",
+        "🍄",
+        "🥜",
+        "🌰",
+        "🍞",
+        "🥐",
+        "🥖",
+        "🥨",
+        "🥯",
+        "🥞",
+        "🧇",
+        "🧀",
+        "🍖",
+        "🍗",
+        "🥩",
+        "🥓",
+        "🍔",
+        "🍟",
+        "🍕",
+        "🌭",
+        "🥪",
+        "🌮",
+        "🌯",
+        "🥙",
+        "🧆",
+        "🥚",
+        "🍳",
+        "🥘",
+        "🍲",
+        "🥣",
+        "🥗",
+        "🍿",
+        "🧈",
+        "🧂",
+        "🥫",
+        "🍱",
+        "🍘",
+        "🍙",
+        "🍚",
+        "🍛",
+        "🍜",
+        "🍝",
+        "🍠",
+        "🍢",
+        "🍣",
+        "🍤",
+        "🍥",
+        "🥮",
+        "🍡",
+        "🥟",
+        "🥠",
+        "🥡",
+        "🦪",
+        "🍦",
+        "🍧",
+        "🍨",
+        "🍩",
+        "🍪",
+        "🎂",
+        "🍰",
+        "🧁",
+        "🥧",
+        "🍫",
+        "🍬",
+        "🍭",
+        "🍮",
+        "🍯",
+        "🍇",
+        "🍈",
+        "🍉",
+        "🍊",
+        "🍋",
+        "🍌",
+        "🍍",
+        "🥭",
+        "🍎",
+        "🍏",
+        "🍐",
+        "🍑",
+        "🍒",
+        "🍓",
+        "🥝",
+        "🍅",
+        "🥥",
+        "🥑",
+        "🍆",
+        "🥔",
+        "🥕",
+        "🌽",
+        "🌶️",
+        "🥒",
+        "🥬",
+        "🥦",
+        "🧄",
+        "🧅",
+        "🍄",
+      ];
+
+      // Create food particles
+      function createFoodParticle(x, y) {
+        const particle = document.createElement("div");
+        particle.className = "food-particle";
+
+        // Random food emoji
+        const randomEmoji =
+          foodEmojis[Math.floor(Math.random() * foodEmojis.length)];
+        particle.textContent = randomEmoji;
+
+        // Random position around the cursor
+        const randomOffsetX = (Math.random() - 0.5) * 100;
+        const randomOffsetY = (Math.random() - 0.5) * 100;
+
+        particle.style.left = x + randomOffsetX + "px";
+        particle.style.top = y + randomOffsetY + "px";
+
+        // Random rotation
+        const randomRotation = Math.random() * 360;
+        particle.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg)`;
+
+        // Random size
+        const randomSize = Math.random() * 20 + 15;
+        particle.style.fontSize = randomSize + "px";
+
+        foodParticleContainer.appendChild(particle);
+
+        // Remove particle after animation completes
+        setTimeout(() => {
+          particle.remove();
+        }, 3000);
+      }
+
+      // Add food particle system to chat
+      chatDiv.addEventListener("mousemove", (e) => {
+        // Get position relative to the chat container
+        const rect = chatDiv.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Show particle container
+        foodParticleContainer.style.opacity = "1";
+
+        // Create particles occasionally
+        if (Math.random() < 0.1) {
+          createFoodParticle(x, y);
+        }
+      });
+
+      chatDiv.addEventListener("mouseleave", () => {
+        // Hide particle container when mouse leaves
+        foodParticleContainer.style.opacity = "0";
+      });
+
+      // Add particle burst on click
+      chatDiv.addEventListener("click", (e) => {
+        const rect = chatDiv.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Create a burst of particles
+        for (let i = 0; i < 10; i++) {
+          createFoodParticle(x, y);
+        }
+      });
+    </script>
+  </body>
+</html>
