@@ -24,7 +24,7 @@ app.use(session({
 }));
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://e-food:aWXSoN7j1mVdr1CQ@food.chx76kj.mongodb.net/?retryWrites=true&w=majority&appName=food', {
+mongoose.connect('mongodb+srv://e-food:EheZWBM055GdYbtb@food.chx76kj.mongodb.net/?retryWrites=true&w=majority&appName=food', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
