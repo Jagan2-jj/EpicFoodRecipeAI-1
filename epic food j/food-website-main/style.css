@@ -1850,3 +1850,22 @@ p {
     }
 }
 
+/* Always show the magic icon button on all screen sizes */
+.magic-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make sure it's visible on mobile */
+@media (max-width: 991px) {
+  .magic-btn {
+    display: inline-flex !important;
+    margin-right: 10px; /* Adjust as needed */
+  }
+  .magic-btn .fa-magic {
+    font-size: 26px;
+    color: #ff7843 !important;
+  }
+}
+
